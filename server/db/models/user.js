@@ -39,7 +39,6 @@ const User = db.define('user', {
   shippingAddress: {
     type: Sequelize.STRING
   },
-  // check stripe for this information.
   ccNumber: {
     type: Sequelize.INTEGER
   },
