@@ -1,23 +1,28 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
-import {gettingAllProducts} from './products'
+import {gettingAllProducts} from '../store/product'
 
 /**
  * COMPONENT
  */
 
 class AllProducts extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
     this.props.getAllProducts()
+    console.log(this.props.AllProducts)
   }
 
   render() {
     const AllProducts = this.props.AllProducts
 
-    if (!AllProducts[0]) return 'loading'
-
+    if (!AllProducts) return 'loading'
+    console.log(AllProducts[0])
     return (
       <ul>
         {AllProducts.map(product => (
@@ -35,7 +40,7 @@ class AllProducts extends Component {
  */
 const mapState = state => {
   return {
-    AllProducts: state.AllProducts
+    AllProducts: state.products.AllProducts
   }
 }
 
