@@ -34,24 +34,24 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   PhoneNumber: {
-
+    type: Sequelize.INTEGER
   },
   shippingAddress: {
-    //separate into fields
+    type: Sequelize.STRING
   },
   // check stripe for this information.
   ccNumber: {
-    //Salt and hash - add to hook
+    type: Sequelize.INTEGER
   },
   expDate: {
-
+    type: Sequelize.DATE
   },
-  code: {
-
+  ccvCode: {
+    type: Sequelize.INTEGER
   },
   billingAddress: {
-    //fields
-  },
+    type: Sequelize.STRING
+  }
 })
 
 module.exports = User

@@ -2,14 +2,12 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-
-
-const Details = db.define(details, {
+const Details = db.define('details', {
   purchaseQuantity: {
-
+    type: Sequelize.INTEGER
   },
   purchasePrice: {
-    //at time of purchase 
+    type: Sequelize.DECIMAL(10, 2)
   }
 })
 
