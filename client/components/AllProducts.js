@@ -10,18 +10,16 @@ import {gettingAllProducts} from './products'
 
 
 class AllProducts extends Component {
-  // constructor() {
-  //   this.loadingState = true
-  // }
+
 
   componentDidMount() {
-    const getAllProducts = props.getAllProducts
-    getAllProducts()
+   this.props.getAllProducts()
   }
-  
+
     render() { 
 
       const AllProducts = this.props.AllProducts
+
       if (!AllProducts[0]) return 'loading'
 
         return ( 
@@ -59,8 +57,7 @@ const mapDispatch = dispatch => {
 }
 
 
-
-export default connect(mapState)(AllProducts)
+export default connect(mapState,mapDispatch)(AllProducts)
 
 /**
  * PROP TYPES
