@@ -33,18 +33,23 @@ const User = db.define('user', {
   lastName: {
     type: Sequelize.STRING
   },
-  PhoneNumber: {},
+  PhoneNumber: {
+    type: Sequelize.INTEGER
+  },
   shippingAddress: {
-    //separate into fields
+    type: Sequelize.STRING
   },
-  // check stripe for this information.
   ccNumber: {
-    //Salt and hash - add to hook
+    type: Sequelize.INTEGER
   },
-  expDate: {},
-  code: {},
+  expDate: {
+    type: Sequelize.DATE
+  },
+  ccvCode: {
+    type: Sequelize.INTEGER
+  },
   billingAddress: {
-    //fields
+    type: Sequelize.STRING
   }
 })
 
