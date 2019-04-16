@@ -9,12 +9,8 @@ const Products = db.define(product, {
   imageUrl: {
     //url
   },
-  description: {
-
-  },
-  price: {
-
-  }
+  description: {},
+  price: {}
 })
 
-module.exports = Products;
+module.exports = Products
