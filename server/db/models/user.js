@@ -26,7 +26,32 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
-  }
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  PhoneNumber: {
+
+  },
+  shippingAddress: {
+    //separate into fields
+  },
+  // check stripe for this information.
+  ccNumber: {
+    //Salt and hash - add to hook
+  },
+  expDate: {
+
+  },
+  code: {
+
+  },
+  billingAddress: {
+    //fields
+  },
 })
 
 module.exports = User
