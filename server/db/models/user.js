@@ -33,9 +33,7 @@ const User = db.define('user', {
   lastName: {
     type: Sequelize.STRING
   },
-  PhoneNumber: {
-
-  },
+  PhoneNumber: {},
   shippingAddress: {
     //separate into fields
   },
@@ -43,15 +41,11 @@ const User = db.define('user', {
   ccNumber: {
     //Salt and hash - add to hook
   },
-  expDate: {
-
-  },
-  code: {
-
-  },
+  expDate: {},
+  code: {},
   billingAddress: {
     //fields
-  },
+  }
 })
 
 module.exports = User

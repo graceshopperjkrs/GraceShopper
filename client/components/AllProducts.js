@@ -8,47 +8,36 @@ import {gettingAllProducts} from './products'
  * COMPONENT
  */
 
-
 class AllProducts extends Component {
-
-
   componentDidMount() {
-   this.props.getAllProducts()
+    this.props.getAllProducts()
   }
 
-    render() { 
+  render() {
+    const AllProducts = this.props.AllProducts
 
-      const AllProducts = this.props.AllProducts
+    if (!AllProducts[0]) return 'loading'
 
-      if (!AllProducts[0]) return 'loading'
-
-        return ( 
-            <ul>
-              {
-                AllProducts.map(product => (
-                  <li key={product.id}
-                  >
-                  <SingleProduct product={product}/>
-                  </li>
-                ))
-              }
-            </ul>
-         );
-    }
+    return (
+      <ul>
+        {AllProducts.map(product => (
+          <li key={product.id}>
+            <SingleProduct product={product} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
 }
- 
-export default ;
-
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
-    AllProducts:state.AllProducts
+    AllProducts: state.AllProducts
   }
 }
-
 
 const mapDispatch = dispatch => {
   return {
@@ -56,8 +45,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-
-export default connect(mapState,mapDispatch)(AllProducts)
+export default connect(mapState, mapDispatch)(AllProducts)
 
 /**
  * PROP TYPES
