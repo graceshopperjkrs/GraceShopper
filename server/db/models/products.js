@@ -24,7 +24,6 @@ const Products = db.define('products', {
     allowNull: false,
     validate: {
       min: 1,
-      notEmpty: true //check if this works
     }
   }
 })

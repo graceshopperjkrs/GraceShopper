@@ -7,7 +7,11 @@ const Details = db.define('details', {
     type: Sequelize.INTEGER
   },
   purchasePrice: {
-    type: Sequelize.INTEGER //price in cents
+    type: Sequelize.INTEGER, //price in cents
+    allowNull: false,
+    validate: {
+      min: 1,
+    }
   }
 })
 
