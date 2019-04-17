@@ -17,13 +17,12 @@ const initialState = {
   SelectedProduct: {}
 }
 const store = mockStore(initialState)
-import {reducer} from '../client/store'
-//import {singleProduct} from '../../client/components/'
 
 const adapter = new Adapter()
 
 enzyme.configure({adapter})
-describe('AllProducts', () => {
+
+describe('ProductView (single and individual)', () => {
   let singleProduct
   beforeEach(() => {
     singleProduct = shallow(
