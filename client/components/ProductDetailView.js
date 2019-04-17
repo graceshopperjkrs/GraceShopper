@@ -5,12 +5,12 @@ import {getSelected} from '../store/product'
 
 class productDetail extends Component {
   componentDidMount() {
-    const id = this.props.match.params.id
-    this.props.getSelected(id)
+    const id = this.props.match.params.productId
+    this.props.getSelectedProduct(id)
   }
 
   render() {
-    if (!this.props.selected.id) {
+    if (!this.props.selected) {
       return 'Loading'
     }
 
@@ -25,7 +25,7 @@ class productDetail extends Component {
 }
 
 const mapState = state => ({
-  selected: state.products.selected
+  selected: state.products.SelectedProduct
 })
 
 const mapDispatch = dispatch => {

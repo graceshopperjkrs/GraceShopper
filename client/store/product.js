@@ -2,8 +2,8 @@ import axios from 'axios'
 import history from '../history'
 
 //ACTION TYPES
-const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
-const GET_SELECTED_PRODUCT = 'GET_SELECTED_PRODUCT'
+export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
+export const GET_SELECTED_PRODUCT = 'GET_SELECTED_PRODUCT'
 
 //INITIAL STATE
 const productsInitialState = {
@@ -12,12 +12,12 @@ const productsInitialState = {
 }
 
 //ACTION CREATORS
-const gotAllProducts = products => ({
+export const gotAllProducts = products => ({
   type: GET_ALL_PRODUCTS,
   products
 })
 
-const gotSelectedProducts = product => ({
+export const gotSelectedProducts = product => ({
   type: GET_SELECTED_PRODUCT,
   product
 })
@@ -25,7 +25,6 @@ const gotSelectedProducts = product => ({
 //THUNK
 export const gettingAllProducts = () => async dispatch => {
   try {
-    //TODO:double check API route
     const res = await axios.get('/api/products')
     dispatch(gotAllProducts(res.data))
   } catch (err) {
@@ -35,7 +34,6 @@ export const gettingAllProducts = () => async dispatch => {
 
 export const getSelected = productId => async dispatch => {
   try {
-    //TODO: double check API route
     const res = await axios.get(`/api/products/${productId}`)
     dispatch(gotSelectedProducts(res.data))
   } catch (error) {

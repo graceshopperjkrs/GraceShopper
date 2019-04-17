@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import SingleProduct from './SingleProduct'
+import {SingleProduct} from './SingleProduct'
 import {gettingAllProducts} from '../store/product'
 
 /**
  * COMPONENT
  */
 
-class AllProducts extends Component {
+export class AllProducts extends Component {
   constructor(props) {
     super(props)
   }
