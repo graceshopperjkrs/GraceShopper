@@ -1,7 +1,7 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
 
-const OrderStatus = db.define('orderStatus', {
+const OrderStatuses = db.define('orderStatuses', {
   status: {
     type: Sequelize.STRING
   },
@@ -10,4 +10,4 @@ const OrderStatus = db.define('orderStatus', {
   }
 })
 
-module.exports = OrderStatus
+module.exports = OrderStatuses

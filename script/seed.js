@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Products, OrderStatus} = require('../server/db/models')
+const {User, Products, OrderStatuses} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -33,7 +33,7 @@ async function seed() {
   /*     orderStatus model           */
   /*------------------------------*/
      await Promise.all([
-        OrderStatus.bulkCreate(
+        OrderStatuses.bulkCreate(
            [{
             status: 'draft',
             description: 'items in cart, not purchased'
