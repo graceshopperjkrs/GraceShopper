@@ -9,9 +9,9 @@ import {gettingAllProducts} from '../store/product'
  */
 
 export class AllProducts extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   componentDidMount() {
     this.props.getAllProducts()
@@ -19,13 +19,13 @@ export class AllProducts extends Component {
   }
 
   render() {
-    const AllProducts = this.props.AllProducts
+    const allProducts = this.props.AllProducts
 
-    if (!AllProducts) return 'loading'
-    console.log(AllProducts[0])
+    if (!allProducts) return 'loading'
+    // console.log(allProducts[0])
     return (
       <ul>
-        {AllProducts.map(product => (
+        {allProducts.map(product => (
           <li key={product.id}>
             <SingleProduct product={product} />
           </li>
@@ -40,7 +40,7 @@ export class AllProducts extends Component {
  */
 const mapState = state => {
   return {
-    AllProducts: state.products.AllProducts
+    AllProducts: state.AllProducts
   }
 }
 

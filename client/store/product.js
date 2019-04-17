@@ -6,10 +6,6 @@ export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 export const GET_SELECTED_PRODUCT = 'GET_SELECTED_PRODUCT'
 
 //INITIAL STATE
-const productsInitialState = {
-  AllProducts: [],
-  SelectedProduct: {}
-}
 
 //ACTION CREATORS
 export const gotAllProducts = products => ({
@@ -42,13 +38,19 @@ export const getSelected = productId => async dispatch => {
 }
 
 //REDUCER
-export default function(state = productsInitialState, action) {
+export function AllProducts(state = [], action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
-      return {...state, AllProducts: action.products}
-    case GET_SELECTED_PRODUCT: {
-      return {...state, SelectedProduct: action.product}
-    }
+      return action.products
+    default:
+      return state
+  }
+}
+
+export function SelectedProduct(state = {}, action) {
+  switch (action.type) {
+    case GET_SELECTED_PRODUCT:
+      return action.product
     default:
       return state
   }
