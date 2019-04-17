@@ -25,7 +25,6 @@ const gotSelectedProducts = product => ({
 //THUNK
 export const gettingAllProducts = () => async dispatch => {
   try {
-    //TODO:double check API route
     const res = await axios.get('/api/products')
     dispatch(gotAllProducts(res.data))
   } catch (err) {
@@ -35,7 +34,6 @@ export const gettingAllProducts = () => async dispatch => {
 
 export const getSelected = productId => async dispatch => {
   try {
-    //TODO: double check API route
     const res = await axios.get(`/api/products/${productId}`)
     dispatch(gotSelectedProducts(res.data))
   } catch (error) {

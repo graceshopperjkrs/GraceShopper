@@ -2,8 +2,23 @@ import {expect} from 'chai'
 import React from 'react'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import {AllProducts} from '../../client/components/'
-import {singleProduct} from '../../../client/components/'
+import {AllProducts} from '../client/components'
+import {Provider} from 'react-redux'
+
+// Redux
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import configureMockStore from 'redux-mock-store'
+import thunkMiddleware from 'redux-thunk'
+const middlewares = [thunkMiddleware]
+const mockStore = configureMockStore(middlewares)
+const initialState = {
+  AllProducts: [],
+  SelectedProduct: {}
+}
+const store = mockStore(initialState)
+import {reducer} from '../client/store'
+//import {singleProduct} from '../../client/components/'
 
 const adapter = new Adapter()
 
