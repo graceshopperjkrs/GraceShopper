@@ -7,7 +7,7 @@ const Details = db.define('details', {
     type: Sequelize.INTEGER
   },
   purchasePrice: {
-    type: Sequelize.DECIMAL(10, 2)
+    type: Sequelize.INTEGER //price in cents
   }
 })
 
