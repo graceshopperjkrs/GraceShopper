@@ -6,14 +6,40 @@ const {User, Products} = require('../server/db/models')
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-
+  try {
+  /*------------------------------*/
+  /*     users model              */
+  /*------------------------------*/
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  console.log(`seeded users successfully`)
+  /*------------------------------*/
+  /*     products model           */
+  /*------------------------------*/
+  
+    // await seed()
+    // await Products.bulkCreate(productsData, {validate: true})
+    await Promise.all(
+      productsData.map(data => {
+        return Products.create(data)
+      })
+    )
+  } catch (err) {
+    console.error(err)
+    //  process.exitCode = 1
+  } finally {
+    console.log(`seeded ${productsData.length} products`)
+    console.log('closing db connection')
+    console.log(`seeded successfully`)
+  
+  }
+
+
+
 }
 const productsData = [
   {
@@ -160,27 +186,20 @@ const productsData = [
 // This way we can isolate the error handling and exit trapping.
 // The `seed` function is concerned only with modifying the database.
 async function runSeed() {
-  await db.sync({force: true})
-  console.log('seeding...')
   try {
-    // await seed()
-    // await Products.bulkCreate(productsData, {validate: true})
-    await Promise.all(
-      productsData.map(data => {
-        return Products.create(data)
-      })
-    )
-  } catch (err) {
-    console.error(err)
-    //  process.exitCode = 1
-  } finally {
-    console.log(`seeded ${productsData.length} products`)
-    console.log('closing db connection')
-    console.log(`seeded successfully`)
-    await db.close()
-    console.log('db connection closed')
+  console.log('seeding...')
+  await db.sync({force: true})
+  seed()
+  await db.close()
+  console.log('db connection closed')
+  } catch {
+    console.error('problem with seeding')
   }
+
+  
 }
+
+
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
