@@ -20,11 +20,10 @@ const Products = db.define('products', {
     type: Sequelize.TEXT
   },
   price: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.INTEGER, // put price in cents
     allowNull: false,
     validate: {
-      min: 0.01,
-      notEmpty: true
+      min: 1,
     }
   }
 })
