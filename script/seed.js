@@ -4,23 +4,22 @@ const db = require('../server/db')
 const {User, Products, OrderStatuses} = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
   console.log('db synced!')
   try {
-  /*------------------------------*/
-  /*     users model              */
-  /*------------------------------*/
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+    /*------------------------------*/
+    /*     users model              */
+    /*------------------------------*/
+    const users = await Promise.all([
+      User.create({email: 'cody@email.com', password: '123'}),
+      User.create({email: 'murphy@email.com', password: '123'})
+    ])
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded users successfully`)
-  /*------------------------------*/
-  /*     products model           */
-  /*------------------------------*/
-  
+    console.log(`seeded ${users.length} users`)
+    console.log(`seeded users successfully`)
+    /*------------------------------*/
+    /*     products model           */
+    /*------------------------------*/
+
     // await seed()
     // await Products.bulkCreate(productsData, {validate: true})
     await Promise.all(
@@ -57,11 +56,7 @@ async function seed() {
    
     console.log('closing db connection')
     console.log(`seeded successfully`)
-  
   }
-
-
-
 }
 const productsData = [
   {
@@ -210,6 +205,7 @@ const productsData = [
 // The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   try {
+
   console.log('seeding...')
   await db.sync({force: true})
 
@@ -220,13 +216,10 @@ async function runSeed() {
   console.log('db connection closed')
   
 } catch {
+
     console.error('problem with seeding')
   }
-
-  
 }
-
-
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle

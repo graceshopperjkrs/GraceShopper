@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
  * COMPONENT
  */
 export const SingleProduct = props => {
-  const {name, imageUrl, description, price, id} = props.product
+  const {name, imageUrl, price, id} = props.product
 
   return (
     <div>
@@ -14,7 +14,6 @@ export const SingleProduct = props => {
       </Link>
       <h3>Price: ${price}</h3>
       <img src={imageUrl} />
-      <p>Product Description:{description}</p>
     </div>
   )
 }

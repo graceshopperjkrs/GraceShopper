@@ -25,7 +25,7 @@ class productDetail extends Component {
 }
 
 const mapState = state => ({
-  selected: state.products.SelectedProduct
+  selected: state.SelectedProduct
 })
 
 const mapDispatch = dispatch => {

@@ -12,10 +12,11 @@ const initialState = {
 }
 const store = mockStore(initialState)
 
-import reducer, {
+import {
+  AllProducts,
+  SelectedProduct,
   gotAllProducts,
   GET_ALL_PRODUCTS,
-  GET_SELECTED_PRODUCT,
   gotSelectedProducts
 } from '../client/store/product'
 
@@ -93,9 +94,12 @@ describe('redux store for products', () => {
           'Occlusion of Splenic Vein with Extraluminal Device, Percutaneous Endoscopic Approach',
         price: 91
       }
-      productsInitialState.SelectedProduct = currentSelected
-      const newState = reducer(initialState, gotSelectedProducts(newSelected))
-      expect(newState.SelectedProduct.id).to.equal(newSelected.id)
+      const selectedInitialState = currentSelected
+      const newState = SelectedProduct(
+        selectedInitialState,
+        gotSelectedProducts(newSelected)
+      )
+      expect(newState.id).to.equal(newSelected.id)
     })
   })
 })
