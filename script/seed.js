@@ -208,7 +208,7 @@ const productsData = [
 async function runSeed() {
   try {
     console.log('seeding...')
-    // await db.sync({force: true})
+    await db.sync({force: true})
     await seed()
     await db.close()
 
