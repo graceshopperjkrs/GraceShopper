@@ -23,6 +23,8 @@
 
 body {
   font-family: sans-serif;
+  background-image: url(pexels-photo-1050308-wood.jpeg);
+  background-size: cover;
 }
 
 a {
