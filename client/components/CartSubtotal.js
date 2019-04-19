@@ -6,14 +6,26 @@ import {Link} from 'react-router-dom'
  */
 export const CartSubtotal = props => {
     return ( 
-        <div className="CartSubtotalBox">
+        <div id="CartSubtotalBox">
          
         <h3> Your Cart has xx items </h3>
         <h3> Subtotal: </h3>
          
-          <Link to={`/cart`}>
-            <h1> (put icon here) Go to Cart</h1>
-          </Link>
+         
+           
+               {props.path==='Cart'?
+               <    h1> 
+                   
+                    Checkout
+                    </h1>
+               :  
+                    <Link to={`/cart`}>
+                    <h1> 
+                   <i class="fa fa-shopping-cart"></i>
+                    Go to Cart
+                    </h1>
+                    </Link>
+               }
           </div>
 
         

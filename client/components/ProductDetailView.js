@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { SingleProduct } from './SingleProduct'
 import { connect } from 'react-redux'
 import { getSelected } from '../store/product'
+import {CartSubtotal} from './CartSubtotal'
 
 class productDetail extends Component {
   constructor (props) {
@@ -40,14 +41,20 @@ class productDetail extends Component {
     }
 
     return (
-      <div>
+      <div className="RowContainer">
+      <div className="ColumnContainer">
         <SingleProduct
           product={this.props.selected}
           path='ProductDetailView'
           handleAddProductChange={this.handleAddProductChange}
           handleAddProductSubmit={this.handleAddProductSubmit}
         />
-      </div>
+     </div>
+
+        <div>
+       <CartSubtotal path='AllProducts'/>
+       </div>
+       </div>
     )
   }
 }

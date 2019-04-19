@@ -35,7 +35,7 @@ export class AllProducts extends Component {
         ))}
       </ul>
       </div>
-          <CartSubtotal/>
+          <CartSubtotal path='AllProducts'/>
       </div>
     )
   }

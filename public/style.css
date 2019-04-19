@@ -5,13 +5,13 @@
  :root {
   /* --darkest: #00303F;
   --darkFont: #00303F;
-  --darkAccent: #00303F;
+ 
   
   --mainFont: #CAE4DB;
 
   --medium:  rgb(54, 100, 114); */
   --mediumAccent:rgb(109, 209, 225);
-
+  --darkAccent: #00303F;
   /* --lightAccent: #FFCB9a;
   --brightAccent: goldenrod; */
 
@@ -77,6 +77,7 @@ form div {
   align-content:left;
   margin-top: 10px;
   margin-left: 10px;
+  width: 70%
 }
 
 .RowContainer {
@@ -84,7 +85,7 @@ form div {
   font: 1em sans-serif;
   flex-direction: row;
   align-content: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   margin-top: 10px;
   margin-left: 10px;
 }
@@ -94,9 +95,10 @@ form div {
 .SingleProductBox{
   flex-direction: column;
   margin: 1em;
-  width: 50%;
+  width: 80%;
   border: 1px solid var(--darkAccent);
   padding: 0 5px;
+  border-radius: 25px;
   
  }
 
@@ -111,4 +113,16 @@ form div {
  
   align-self: center;
 
+}
+
+#CartSubtotalBox  {
+  display: flex;
+  flex-direction: column;
+  font: 1em sans-serif;
+  height: 300px;
+  
+  align-content:left;
+  border-radius: 2px;
+  border: 1px solid var(--darkAccent);
+  border-radius: 25px;
 }
