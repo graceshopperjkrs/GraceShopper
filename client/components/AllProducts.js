@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
+import {CartSubtotal} from './CartSubtotal'
 import {gettingAllProducts} from '../store/product'
 
 /**
@@ -24,6 +25,8 @@ export class AllProducts extends Component {
     if (!allProducts) return 'loading'
     // console.log(allProducts[0])
     return (
+      <div className="RowContainer">
+        <div className="ColumnContainer">
       <ul>
         {allProducts.map(product => (
           <li key={product.id}>
@@ -31,6 +34,9 @@ export class AllProducts extends Component {
           </li>
         ))}
       </ul>
+      </div>
+          <CartSubtotal path='AllProducts'/>
+      </div>
     )
   }
 }

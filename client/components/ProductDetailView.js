@@ -1,25 +1,62 @@
-import React, {Component} from 'react'
-import {SingleProduct} from './SingleProduct'
-import {connect} from 'react-redux'
-import {getSelected} from '../store/product'
+import React, { Component } from 'react'
+import { SingleProduct } from './SingleProduct'
+import { connect } from 'react-redux'
+import { getSelected } from '../store/product'
+import {CartSubtotal} from './CartSubtotal'
+import {addingItemstoCart} from './store/cart'
 
 class productDetail extends Component {
-  componentDidMount() {
-    const id = this.props.match.params.productId
-    this.props.getSelectedProduct(id)
+  constructor (props) {
+    super(props)
+    this.state = { addQty: 0 } // should be a better way to handle this local state
   }
 
-  render() {
+  componentDidMount () {
+    const id = this.props.match.params.productId
+    this.props.getSelectedProduct(id)
+
+    this.handleAddProductChange = this.handleAddProductChange.bind(this)
+    this.handleAddProductSubmit = this.handleAddProductSubmit.bind(this)
+  }
+
+  handleAddProductSubmit (evt) {
+    evt.preventDefault()
+    // will post qty to axios and also change store
+    const productObj = {
+      id: this.props.match.params.productId,
+      quantity: this.state.addQty
+    }
+    // call the cart thunk
+    console.log('new qty', this.state.addQty)
+    props.addingItemstoCart(productObj) // double check this
+  }
+
+  handleAddProductChange (evt) {
+   // console.log('prod change' , evt.target)
+    // will change local state qty // not good practice to have local state ?
+    this.setState({ addQty: evt.target.value })
+  }
+
+  render () {
     if (!this.props.selected) {
       return 'Loading'
     }
 
     return (
-      <div>
-        <SingleProduct product={this.props.selected} />
-        Description:
-        {this.props.selected.description}
-      </div>
+      <div className="RowContainer">
+      <div className="ColumnContainer">
+        <SingleProduct
+          product={this.props.selected}
+          path='ProductDetailView'
+          handleAddProductChange={this.handleAddProductChange}
+          handleAddProductSubmit={this.handleAddProductSubmit}
+        />
+     </div>
+
+        <div>
+       <CartSubtotal path='AllProducts'/>
+       </div>
+       </div>
     )
   }
 }
@@ -28,12 +65,13 @@ const mapState = state => ({
   selected: state.SelectedProduct
 })
 
-const mapDispatch = dispatch => {
-  return {
-    getSelectedProduct: id => {
-      dispatch(getSelected(id))
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+ 
+    getSelectedProduct: id => { dispatch(getSelected(id)) },
+    addingItemstoCart: productObj=> {dispatch(addingItemstoCart(productObj))}
+})
 
-export default connect(mapState, mapDispatch)(productDetail)
+export default connect(
+  mapState,
+  mapDispatch
+)(productDetail)

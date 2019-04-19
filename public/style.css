@@ -1,5 +1,31 @@
+ /*-----------------------*/
+ /*   global variables    */
+ /*-----------------------*/
+
+ :root {
+  /* --darkest: #00303F;
+  --darkFont: #00303F;
+ 
+  
+  --mainFont: #CAE4DB;
+
+  --medium:  rgb(54, 100, 114); */
+  --mediumAccent:rgb(109, 209, 225);
+  --darkAccent: #00303F;
+  /* --lightAccent: #FFCB9a;
+  --brightAccent: goldenrod; */
+
+
+}
+ /*-----------------------*/
+ /*   styling             */
+ /*-----------------------*/
+
 body {
   font-family: sans-serif;
+  background-image: url(pexels-photo-1050308-wood.jpeg);
+  background-repeat:  repeat
+  
 }
 
 a {
@@ -18,4 +44,85 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+
+
+ button {
+  color: var(--medium);
+  background-color:  var(--mediumAccent);
+  padding: 3px 3px 3px 3px;
+  margin: 20px;
+  width: 150px;
+  height: 40px;
+ 
+  align-self: center;
+
+}
+
+
+.CartActionsBox{ 
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-content: center;
+}
+
+
+
+ .ColumnContainer {
+  display: flex;
+  font: 1em sans-serif;
+  flex-direction: column;
+  align-content:left;
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 70%
+}
+
+.RowContainer {
+  display: flex;
+  font: 1em sans-serif;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+
+
+.SingleProductBox{
+  flex-direction: column;
+  margin: 1em;
+  width: 80%;
+  border: 1px solid var(--darkAccent);
+  padding: 0 5px;
+  border-radius: 25px;
+  
+ }
+
+
+ .CartActionsBox button {
+  color: var(--medium);
+  background-color:  var(--mediumAccent);
+  padding: 3px 3px 3px 3px;
+  margin: 2px;
+  width: 100px;
+  height: 20px;
+ 
+  align-self: center;
+
+}
+
+#CartSubtotalBox  {
+  display: flex;
+  flex-direction: column;
+  font: 1em sans-serif;
+  height: 300px;
+  
+  align-content:left;
+  border-radius: 2px;
+  border: 1px solid var(--darkAccent);
+  border-radius: 25px;
 }
