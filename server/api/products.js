@@ -7,21 +7,20 @@ module.exports = router
 /* --------------- */
 // add findbyid here//
 
-router.get('/', async (req, res, next) => {
-  try {
-    const allProducts = await Products.findAll()
-    res.json(allProducts)
-  } catch (err) {
-    next(err)
-  }
-})
-
 router.get('/:id', async (req, res, next) => {
   try {
     const selected = await Products.findByPk(req.params.id)
     res.json(selected)
   } catch (error) {
     next(error)
+  }
+})
+router.get('/', async (req, res, next) => {
+  try {
+    const allProducts = await Products.findAll()
+    res.json(allProducts)
+  } catch (err) {
+    next(err)
   }
 })
 

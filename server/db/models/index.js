@@ -23,9 +23,11 @@ Orders.belongsTo(User)
 
 //Details.hasMany(Products)
 Orders.belongsToMany(Products, {through: Details})
+
 //Details.belongsTo(Orders)
 //Details.belongsTo(Products)
 Orders.belongsTo(OrderStatuses)
+// Orders.hasOne(OrderStatuses)
 
 module.exports = {
   User,

@@ -4,8 +4,8 @@ const db = require('../server/db')
 const {User, Products, OrderStatuses} = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
   try {
+    await db.sync({force: true})
     /*------------------------------*/
     /*     users model              */
     /*------------------------------*/
@@ -208,6 +208,7 @@ const productsData = [
 async function runSeed() {
   try {
     console.log('seeding...')
+
     await seed()
 
     await db.close()
