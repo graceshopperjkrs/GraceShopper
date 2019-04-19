@@ -16,9 +16,8 @@ class productDetail extends Component {
 
     return (
       <div>
-        <SingleProduct product={this.props.selected} />
-        Description:
-        {this.props.selected.description}
+        <SingleProduct product={this.props.selected} path='ProductDetailView' />
+
       </div>
     )
   }
