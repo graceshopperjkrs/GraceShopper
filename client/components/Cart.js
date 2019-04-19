@@ -12,7 +12,7 @@ export class Cart extends Component {
   constructor(props) {
      super(props)
      this.handleEditCartChange = this.handleEditCartChange.bind(this)
-     this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
+   //  this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
    }
 
   componentDidMount() {
