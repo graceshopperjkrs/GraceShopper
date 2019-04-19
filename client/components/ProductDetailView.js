@@ -3,6 +3,7 @@ import { SingleProduct } from './SingleProduct'
 import { connect } from 'react-redux'
 import { getSelected } from '../store/product'
 import {CartSubtotal} from './CartSubtotal'
+import {addingItemstoCart} from './store/cart'
 
 class productDetail extends Component {
   constructor (props) {
@@ -27,6 +28,7 @@ class productDetail extends Component {
     }
     // call the cart thunk
     console.log('new qty', this.state.addQty)
+    props.addingItemstoCart(productObj) // double check this
   }
 
   handleAddProductChange (evt) {
@@ -63,13 +65,11 @@ const mapState = state => ({
   selected: state.SelectedProduct
 })
 
-const mapDispatch = dispatch => {
-  return {
-    getSelectedProduct: id => {
-      dispatch(getSelected(id))
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+ 
+    getSelectedProduct: id => { dispatch(getSelected(id)) },
+    addingItemstoCart: productObj=> {dispatch(addingItemstoCart(productObj))}
+})
 
 export default connect(
   mapState,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
 import {CartSubtotal} from './CartSubtotal'
-//import {cartThunks} from '../store/cart'
+import {editingItemsInCart, removingItemsFromCart} from '../store/cart'
 
 /**
  * COMPONENT
@@ -23,9 +23,10 @@ export class Cart extends Component {
 
 
   handleEditCartChange(evt,id){
-    console.log('change', evt.target.value )
-      
+      console.log('change', evt.target.value )
       console.log('cart Change Event id: ', id)
+      const prodObj = {id, purchaseQuantity: evt.target.value}
+      props.editQty(prodObj)
   }
 
   render() {
@@ -67,8 +68,8 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-    deleteItem: prodId=> dispatch(removeItemFromCart(prodId))
-  
+    deleteItem: prodId=> dispatch(removingItemsFromCart(prodId)),
+    editQty: productObj=> dispatch(editingItemsInCart(productObj)) // {productId, qty}
 })
 
 export default connect(mapState, mapDispatch)(Cart)
