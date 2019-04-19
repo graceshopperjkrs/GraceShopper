@@ -38,7 +38,11 @@ export class Cart extends Component {
       <ul>
         {cartList.map(product => (
           <li key={product.id}>
-            <SingleProduct product={product} path='Cart' handleEditCartChange={this.handleEditCartChange} handleEditCartSubmit={this.handleEditCartSubmit}/>
+            <SingleProduct product={product} 
+                            path='Cart' 
+                            handleEditCartChange={this.handleEditCartChange} 
+                            handleEditCartSubmit={this.handleEditCartSubmit}
+                            deleteItem={this.props.deleteItem} />
           </li>
         ))}
       </ul>
@@ -57,9 +61,10 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = dispatch => ({
+    deleteItem: prodId=> dispatch(removeItemFromCart(prodId))
   
-}
+})
 
 export default connect(mapState, mapDispatch)(Cart)
 
