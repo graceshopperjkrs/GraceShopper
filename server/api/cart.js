@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {Products, Orders, Details, OrderStatuses, User} = require('../db/models')
 
 //get cart
-// Where: find by UserId or OrderId to come in findAll below. 
+// Where: find by UserId or OrderId to come in findAll below.
 router.get('/', async (req, res, next) => {
   try {
     const allCartItems = await Details.findAll()
@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
 
     const newOrderId = newOrder.id
 
-    let newDetail = Details.create({
+    let newDetail = await Details.create({
       productId: req.body.productId,
       purchaseQuantity: req.body.purchaseQuantity,
       purchasePrice: req.body.purchasePrice,

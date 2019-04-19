@@ -9,51 +9,54 @@ import {editingItemsInCart, removingItemsFromCart} from '../store/cart'
  * COMPONENT
  */
 
-export class Cart extends Component {
+class disconnectedCart extends Component {
   constructor(props) {
-     super(props)
-     this.handleEditCartChange = this.handleEditCartChange.bind(this)
-   //  this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
-   }
-
-  componentDidMount() {
-    //this.props.getCart()
-    console.log(this.props.cartList)
+    super(props)
+    // this.state = {
+    //   loading: true
+    // }
+    console.log(this.props, 'Props')
+    this.handleEditCartChange = this.handleEditCartChange.bind(this)
+    //  this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
   }
 
+  componentDidMount() {
+    // this.setState({loading: false})
+    console.log(this.props.cartList, 'Cart List')
+    // console.log(this.state.loading)
+  }
 
-  handleEditCartChange(evt,id){
-      console.log('change', evt.target.value )
-      console.log('cart Change Event id: ', id)
-      const prodObj = {id, purchaseQuantity: evt.target.value}
-      props.editQty(prodObj)
+  handleEditCartChange(evt, id) {
+    console.log('change', evt.target.value)
+    console.log('cart Change Event id: ', id)
+    const prodObj = {id, purchaseQuantity: evt.target.value}
+    props.editQty(prodObj)
   }
 
   render() {
-    //const cartList = this.props.cartList
-    const cartList = [{name: 'name', imageUrl:'http://dummyimage.com/192x121.jpg/5fa2dd/ffffff' , price:2, qty: 10, id:1} ]
-   // console.log('cart props', this.props)
-    if (!cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
-    
+    // const cartList = this.props.cartList
+    // const cartList = [{name: 'name', imageUrl:'http://dummyimage.com/192x121.jpg/5fa2dd/ffffff' , price:2, qty: 10, id:1} ]
+    console.log('cart props', this.props)
+    if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
-        <div className="RowContainer">
+      <div className="RowContainer">
         <div className="ColumnContainer">
-      <ul>
-        {cartList.map(product => (
-          <li key={product.id}>
-            <SingleProduct product={product} 
-                            path='Cart' 
-                            handleEditCartChange={this.handleEditCartChange} 
-                            handleEditCartSubmit={this.handleEditCartSubmit}
-                            deleteItem={this.props.deleteItem} />
-          </li>
-        ))}
-      </ul>
+          <ul>
+            {this.props.cartList.map(product => (
+              <li key={product.productId}>
+                <SingleProduct
+                  product={product}
+                  path="Cart"
+                  handleEditCartChange={this.handleEditCartChange}
+                  handleEditCartSubmit={this.handleEditCartSubmit}
+                  deleteItem={this.props.deleteItem}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <CartSubtotal path="Cart" />
       </div>
-       <CartSubtotal path='Cart'/>
-      </div>
-
-      
     )
   }
 }
@@ -63,20 +66,20 @@ export class Cart extends Component {
  */
 const mapState = state => {
   return {
-    cartList: state.cart.cart 
+    cartList: state.AddItems.cart
   }
 }
 
 const mapDispatch = dispatch => ({
-    deleteItem: prodId=> dispatch(removingItemsFromCart(prodId)),
-    editQty: productObj=> dispatch(editingItemsInCart(productObj)) // {productId, qty}
+  deleteItem: prodId => dispatch(removingItemsFromCart(prodId)),
+  editQty: productObj => dispatch(editingItemsInCart(productObj))
 })
 
-export default connect(mapState, mapDispatch)(Cart)
+export default connect(mapState, mapDispatch)(disconnectedCart)
 
 /**
  * PROP TYPES
  */
-Cart.propTypes = {
-  // email: PropTypes.string
-}
+// Cart.propTypes = {
+// email: PropTypes.string
+// }
