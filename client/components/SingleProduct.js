@@ -6,8 +6,8 @@ import {Link} from 'react-router-dom'
  */
 export const SingleProduct = props => {
   const {name, imageUrl, price, id, description} = props.product
-  console.log('singleproduct props', props.path)
-  return (
+ // console.log('singleproduct props', props.path, props.product)
+  return ( 
     <div className="SingleProductBox">
      
   
@@ -29,14 +29,14 @@ export const SingleProduct = props => {
             <input type="Number" 
                    name="qty" 
                    defaultValue="0"
+                   value= {props.qty}
                     min="0" 
                     max="400000"
                     step="5"
                 onChange={props.handleAddProductChange}
                    />
           <button type="submit" 
-          disabled={ (!props.qty)} 
-          onClick={props.handleSubmit}>
+          onClick={props.handleAddProductSubmit}>
         Add to Cart !
           </button>
           </div>
@@ -47,20 +47,20 @@ export const SingleProduct = props => {
        <div >
 
           <div className="CartActionsBox">
-          Quantity: 
-            <input type="Number" 
-                   name="qty" 
-                   defaultValue={props.product.qty}
+          Quantity:  
+            <input type="number"
+                   name="cartQty" 
+                   defaultValue = {props.product.qty}
+                   value = {props.qty}
+                  
                     min="0" 
                     max="400000"
                     step="5"
-                onChange={props.handleEditCartChange}
+                onInput={(evt)=> props.handleEditCartChange(evt, id)}
                    />
-          <button type="submit" id="updateQty"
-          disabled={ (!props.qty)} 
-          onClick={props.handleEditCartSubmit}>
-        Edit Quantity 
-          </button>
+      
+
+
           </div>
           <div className="CartActionsBox">
               <i style={{height: 24 + 'px'}}

@@ -3,17 +3,17 @@
  /*-----------------------*/
 
  :root {
-  --darkest: #00303F;
+  /* --darkest: #00303F;
   --darkFont: #00303F;
   --darkAccent: #00303F;
   
   --mainFont: #CAE4DB;
 
-  --medium:  rgb(54, 100, 114);
+  --medium:  rgb(54, 100, 114); */
   --mediumAccent:rgb(109, 209, 225);
 
-  --lightAccent: #FFCB9a;
-  --brightAccent: goldenrod;
+  /* --lightAccent: #FFCB9a;
+  --brightAccent: goldenrod; */
 
 
 }
@@ -24,7 +24,8 @@
 body {
   font-family: sans-serif;
   background-image: url(pexels-photo-1050308-wood.jpeg);
-  background-size: cover;
+  background-repeat:  repeat
+  
 }
 
 a {
