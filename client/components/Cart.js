@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
-import {gettingAllProducts} from '../store/product'
+import {CartSubtotal} from './CartSubtotal'
+//import {cartThunks} from '../store/cart'
 
 /**
  * COMPONENT
@@ -34,7 +35,8 @@ export class Cart extends Component {
     if (!cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     
     return (
-        <div className="Container">
+        <div className="RowContainer">
+        <div className="ColumnContainer">
       <ul>
         {cartList.map(product => (
           <li key={product.id}>
@@ -47,6 +49,9 @@ export class Cart extends Component {
         ))}
       </ul>
       </div>
+       <CartSubtotal/>
+      </div>
+
       
     )
   }

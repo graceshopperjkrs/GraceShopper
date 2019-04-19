@@ -70,7 +70,7 @@ form div {
 
 
 
- .Container {
+ .ColumnContainer {
   display: flex;
   font: 1em sans-serif;
   flex-direction: column;
@@ -78,6 +78,17 @@ form div {
   margin-top: 10px;
   margin-left: 10px;
 }
+
+.RowContainer {
+  display: flex;
+  font: 1em sans-serif;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
 
 
 .SingleProductBox{
