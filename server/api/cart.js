@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {Products, Orders, Details, OrderStatuses, User} = require('../db/models')
 
 //get cart
-
+// Where: find by UserId or OrderId to come in findAll below. 
 router.get('/', async (req, res, next) => {
   try {
     const allCartItems = await Details.findAll()
