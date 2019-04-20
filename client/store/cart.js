@@ -70,8 +70,11 @@ export const addingItemstoCart = item => async dispatch => {
 }
 
 export const removingItemsFromCart = id => async dispatch => {
+ 
   try {
+    console.log('delete thunk id:', id)
     const res = await axios.delete(`/api/cart/${id}`)
+    console.log('delete thunk', id)
     dispatch(removeItemsfromCart(id))
   } catch (err) {
     console.error(err)
@@ -111,11 +114,14 @@ export function AddItems(state = initialState, action) {
       }
 
     case REMOVE_FROM_CART:
+      console.log('reducer remove ', state.cart[0])
+      
+      let cartWithoutItem = [...state.cart].filter(item => action.id !== item.productId)
       return {
         ...state,
-        cart: [...state.cart].filter(item => action.id !== item.id),
-        totalPrice: totalCalculation(action.cart),
-        totalItems: action.cart.length
+        cart: cartWithoutItem,
+        totalPrice: totalCalculation(cartWithoutItem),
+        totalItems: cartWithoutItem.length
       }
 
     case EDIT_QTY_FROM_CART:

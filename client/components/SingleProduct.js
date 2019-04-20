@@ -9,8 +9,9 @@ export const SingleProduct = props => {
   const {name, imageUrl,  id, description} = props.product
   const qty = props.path==='Cart' ? props.product.purchaseQuantity : props.qty
   const price = props.path === 'Cart' ? props.product.purchasePrice : props.product.price
- 
-
+  console.log(props.path, 'productId', props.product.productId)
+  console.log(props.path, 'id', props.product.id)
+  const productId = props.path==='Cart' ? props.product.productId : props.product.id
 
  return ( 
     <div className="SingleProductBox">
@@ -28,6 +29,9 @@ export const SingleProduct = props => {
       { props.path === 'Cart' ? ''
          :  <p>Description: {description} </p>   }
 
+
+         { props.path!=='AllProducts' ? 
+        <div>
         Edit Quantity: 
             <input type="Number" 
                    name="qty"
@@ -35,8 +39,11 @@ export const SingleProduct = props => {
                     min="0"
                     step="5"
                 onChange={props.path=== 'Cart' ? 
-                          (evt)=> props.handleEditCartChange(evt, props.product.productId):          props.handleAddProductChange}
+                      (evt)=> props.handleEditCartChange(evt, productId)
+                      : props.handleAddProductChange}
                    />
+          </div>
+                   : ''} 
 
 
 
@@ -57,7 +64,7 @@ export const SingleProduct = props => {
           <div className="CartActionsBox">
               <i style={{height: 24 + 'px'}}
               className="fas fa-trash"
-              onClick={()=>props.deleteItem(props.id)}/>  Remove Item
+              onClick={()=>props.deleteItem(productId)}/>  Remove Item
           </div>
         </div>
       :''}

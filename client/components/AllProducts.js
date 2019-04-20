@@ -30,7 +30,7 @@ export class AllProducts extends Component {
       <ul>
         {allProducts.map(product => (
           <li key={product.id}>
-            <SingleProduct product={product} />
+            <SingleProduct product={product} path='AllProducts' />
           </li>
         ))}
       </ul>

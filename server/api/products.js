@@ -9,7 +9,6 @@ module.exports = router
 
 router.get('/:id', async (req, res, next) => {
   try {
-    console.log('sproute', req.baseUrl, req.originalUrl)
     const selected = await Products.findByPk(req.params.id)
     res.json(selected)
   } catch (error) {

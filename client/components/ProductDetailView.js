@@ -34,13 +34,11 @@ class productDetail extends Component {
         imageUrl: this.props.selected.imageUrl,
         name: this.props.selected.name 
       }
-      this.props.addingItemstoCart(productObj) // double check this
+      this.props.addingItemstoCart(productObj) 
     } else  {
    
       let productObj = {id:  this.props.selected.id, 
                         purchaseQuantity: Number(this.state.addQty),
-                       // imageUrl: this.props.selected.imageUrl,
-                       // name: this.props.selected.name
                        }
       this.props.editingItemsInCart(productObj)
     }
