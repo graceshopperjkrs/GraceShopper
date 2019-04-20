@@ -6,7 +6,11 @@ import {Link} from 'react-router-dom'
  */
 
 export const SingleProduct = props => {
-  const {name, imageUrl, price, id, description} = props.product
+  const {name, imageUrl,  id, description} = props.product
+  const qty = props.path==='Cart' ? props.product.purchaseQuantity : props.qty
+  const price = props.path === 'Cart' ? props.product.purchasePrice : props.product.price
+ 
+
 
  return ( 
     <div className="SingleProductBox">
@@ -19,28 +23,30 @@ export const SingleProduct = props => {
 
     
       <img src={imageUrl} />
+      <h3>Price: ${price}</h3>
 
-      
+      { props.path === 'Cart' ? ''
+         :  <p>Description: {description} </p>   }
+
+        Edit Quantity: 
+            <input type="Number" 
+                   name="qty"
+                   value= {qty}
+                    min="0"
+                    step="5"
+                onChange={props.path=== 'Cart' ? 
+                          (evt)=> props.handleEditCartChange(evt, props.product.productId):          props.handleAddProductChange}
+                   />
+
+
 
       { (props.path === 'ProductDetailView')? 
        <div> 
-         <h3>Price: ${price}</h3>
-          <p>Description: {description} </p>    
 
-            Quantity: 
-            <input type="Number" 
-                   name="qty" 
-                  
-                   value= {props.qty}
-                    min="0" 
-                    max="400000"
-                    step="5"
-                onChange={props.handleAddProductChange}
-                   />
           <button type="submit" 
           disabled={ (props.qty===0)}
           onClick={props.handleAddProductSubmit}>
-       Add to Cart / Modify Qty
+              Add to Cart / Modify Qty
           </button>
           </div>
       :''}
@@ -48,23 +54,6 @@ export const SingleProduct = props => {
 
     { props.path === 'Cart' ?
        <div >
-          <h3>Price: ${props.product.purchasePrice}</h3>
-          <h3>  Quantity:   {props.product.purchaseQuantity} </h3>
-          <div className="CartActionsBox">
-         
-            Edit Quantity: 
-            <input type="number"
-                   name="cartQty" 
-                  
-                   value = {props.product.purchaseQuantity}
-                    min="0" 
-                    step="5"
-                onChange= {(evt)=> props.handleEditCartChange(evt, props.product.productId)}
-                   />
-      
-
-
-          </div>
           <div className="CartActionsBox">
               <i style={{height: 24 + 'px'}}
               className="fas fa-trash"
