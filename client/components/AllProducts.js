@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
-import {CartSubtotal} from './CartSubtotal'
+import CartSubtotal from './CartSubtotal'
 import {gettingAllProducts} from '../store/product'
 
 /**
@@ -16,7 +16,7 @@ export class AllProducts extends Component {
 
   componentDidMount() {
     this.props.getAllProducts()
-    console.log(this.props.AllProducts)
+   
   }
 
   render() {

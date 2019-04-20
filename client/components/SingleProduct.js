@@ -4,10 +4,11 @@ import {Link} from 'react-router-dom'
 /**
  * COMPONENT
  */
+
 export const SingleProduct = props => {
   const {name, imageUrl, price, id, description} = props.product
- // console.log('singleproduct props', props.path, props.product)
-  return ( 
+
+ return ( 
     <div className="SingleProductBox">
      
   
@@ -19,16 +20,17 @@ export const SingleProduct = props => {
     
       <img src={imageUrl} />
 
-      <h3>Price: ${price}</h3>
+      
 
       { (props.path === 'ProductDetailView')? 
        <div> 
+         <h3>Price: ${price}</h3>
           <p>Description: {description} </p>    
 
             Quantity: 
             <input type="Number" 
                    name="qty" 
-                   defaultValue="0"
+                  
                    value= {props.qty}
                     min="0" 
                     max="400000"
@@ -36,8 +38,9 @@ export const SingleProduct = props => {
                 onChange={props.handleAddProductChange}
                    />
           <button type="submit" 
+          disabled={ (props.qty===0)}
           onClick={props.handleAddProductSubmit}>
-        Add to Cart !
+       Add to Cart / Modify Qty
           </button>
           </div>
       :''}
@@ -45,18 +48,18 @@ export const SingleProduct = props => {
 
     { props.path === 'Cart' ?
        <div >
-
+          <h3>Price: ${props.product.purchasePrice}</h3>
+          <h3>  Quantity:   {props.product.purchaseQuantity} </h3>
           <div className="CartActionsBox">
-          Quantity:  
+         
+            Edit Quantity: 
             <input type="number"
                    name="cartQty" 
-                   defaultValue = {props.product.qty}
-                   value = {props.qty}
                   
+                   value = {props.product.purchaseQuantity}
                     min="0" 
-                    max="400000"
                     step="5"
-                onInput={(evt)=> props.handleEditCartChange(evt, id)}
+                onChange= {(evt)=> props.handleEditCartChange(evt, props.product.productId)}
                    />
       
 

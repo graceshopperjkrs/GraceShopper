@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
 
 //create cart
 router.post('/', async (req, res, next) => {
+  console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     const userId = req.session.userId
     const user = await User.findByPk(userId)
@@ -41,10 +42,11 @@ router.post('/', async (req, res, next) => {
 //update
 
 router.put('/:productId', async (req, res, next) => {
+  console.log('cart PUT route', req.body, res.session)
   const existingProduct = await Details.findByPk(req.params.productId)
 
   if (!existingProduct) {
-    res.status(404).json('Product Not Found in Cart')
+    res.status(404).json('Product Not Found in Cart') 
   } else {
     await Details.update(
       {purchaseQuantity: req.body.purchaseQuantity},
@@ -55,7 +57,13 @@ router.put('/:productId', async (req, res, next) => {
         returning: true
       }
     )
+      res.status(204).send(/*Updated*/)
+    //let editedRes = await Details.findAll({where: })
+    
+
   }
 })
+
+
 
 module.exports = router
