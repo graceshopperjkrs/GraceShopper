@@ -5,6 +5,7 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './app'
+import {Elements, StripeProvider} from 'react-stripe-elements'
 
 // establishes socket connection
 import './socket'
@@ -12,7 +13,12 @@ import './socket'
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      //TODO: Hide key in Heroku app.
+      <StripeProvider apiKey="pk_test_ZTj9t26glwu3WoMuiOJpqQgr00cxP37jDf">
+        <Elements>
+          <App />
+        </Elements>
+      </StripeProvider>
     </Router>
   </Provider>,
   document.getElementById('app')
