@@ -41,7 +41,7 @@ export const getCart = item => ({
 // CALCULATE TOTAL PRICE
 function totalCalculation(cart) {
   let sum = cart.reduce((accm, item) => {
-    return (accm += Number(item.purchaseQuantity) * Number(item.purchasePrice))
+    return (accm += Number(item.qty) * Number(item.price))
   }, 0)
 
   return sum
