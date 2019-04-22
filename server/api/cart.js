@@ -4,9 +4,23 @@ const {Products, Orders, Details, OrderStatuses, User} = require('../db/models')
 //get cart
 // Where: find by UserId or OrderId to come in findAll below.
 router.get('/', async (req, res, next) => {
+  console.log('this is req.user.id', req.user.id)
   try {
-    const allCartItems = await Details.findAll()
-    res.json(allCartItems)
+    const orderInfo = await Orders.findOne({
+      where: {
+        userId: req.user.id
+      }
+    })
+    const orderId = orderInfo.id
+    // const orderId = orderInfo
+    console.log(orderId)
+    const cartDetails = await Details.findAll({
+      where: {
+        orderId: orderId
+      }
+    })
+    console.log(cartDetails)
+    res.json(cartDetails)
   } catch (err) {
     next(err)
   }
@@ -15,11 +29,11 @@ router.get('/', async (req, res, next) => {
 //create cart
 router.post('/', async (req, res, next) => {
   try {
-    const userId = req.session.userId
-    const user = await User.findByPk(userId)
+    //before we add to table , first check if order id already exists for a user.
+    //if order id exists then use that else create a new orderid.
 
     let newOrder = await Orders.create({
-      userId: req.session.userId,
+      userId: req.user.id,
       orderStatusId: 1
     })
 

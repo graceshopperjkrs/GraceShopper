@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
 import {CartSubtotal} from './CartSubtotal'
-import {editingItemsInCart, removingItemsFromCart} from '../store/cart'
+import {
+  editingItemsInCart,
+  removingItemsFromCart,
+  gettingCartDetails
+} from '../store/cart'
 
 /**
  * COMPONENT
@@ -15,14 +19,16 @@ class disconnectedCart extends Component {
     // this.state = {
     //   loading: true
     // }
-    console.log(this.props, 'Props')
+
     this.handleEditCartChange = this.handleEditCartChange.bind(this)
     //  this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
   }
 
   componentDidMount() {
     // this.setState({loading: false})
-    console.log(this.props.cartList, 'Cart List')
+    this.props.fetchItems()
+    console.log(this.props.cartList, 'Cart List from cart.js ')
+
     // console.log(this.state.loading)
   }
 
@@ -36,7 +42,7 @@ class disconnectedCart extends Component {
   render() {
     // const cartList = this.props.cartList
     // const cartList = [{name: 'name', imageUrl:'http://dummyimage.com/192x121.jpg/5fa2dd/ffffff' , price:2, qty: 10, id:1} ]
-    console.log('cart props', this.props)
+    console.log('user props', this.props.user.id)
     if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
       <div className="RowContainer">
@@ -66,11 +72,13 @@ class disconnectedCart extends Component {
  */
 const mapState = state => {
   return {
-    cartList: state.AddItems.cart
+    cartList: state.AddItems.cart,
+    user: state.user
   }
 }
 
 const mapDispatch = dispatch => ({
+  fetchItems: () => dispatch(gettingCartDetails()),
   deleteItem: prodId => dispatch(removingItemsFromCart(prodId)),
   editQty: productObj => dispatch(editingItemsInCart(productObj))
 })

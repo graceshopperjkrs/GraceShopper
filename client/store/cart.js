@@ -33,8 +33,9 @@ export const editQtyfromCart = item => ({
   type: EDIT_QTY_FROM_CART,
   item
 })
-export const getCart = () => ({
-  type: GET_CART
+export const getCart = item => ({
+  type: GET_CART,
+  item
 })
 
 // CALCULATE TOTAL PRICE
@@ -48,10 +49,10 @@ function totalCalculation(cart) {
 }
 //THUNKS
 
-export const initialCartorder = () => async dispatch => {
+export const gettingCartDetails = () => async dispatch => {
   try {
     const res = await axios.get('/api/cart')
-    dispatch(initialCart(res.data))
+    dispatch(getCart(res.data))
   } catch (err) {
     console.error(err)
   }
@@ -105,14 +106,14 @@ export function AddItems(state = initialState, action) {
         ...state,
         cart: newCart,
         totalPrice: subtotal,
-        totalItems: newCart.length
+        totalItems: action.cart.length
       }
 
     case REMOVE_FROM_CART:
       return {
         ...state,
         cart: [...state.cart].filter(item => action.id !== item.id),
-        totalPrice: totalCalculation(action.cart),
+        totalPrice: totalCalculation(state.cart),
         totalItems: action.cart.length
       }
 
@@ -120,14 +121,14 @@ export function AddItems(state = initialState, action) {
       return {
         ...state,
         cart: [...state, action.cart],
-        totalPrice: totalCalculation(action.cart),
-        totalItems: action.cart.length
+        totalPrice: totalCalculation(state.cart),
+        totalItems: newCart.length
       }
 
     case GET_CART:
       return {
         ...state,
-        cart: state.cart
+        cart: action.item
       }
 
     default:
