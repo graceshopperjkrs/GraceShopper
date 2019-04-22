@@ -63,143 +63,136 @@ async function seed() {
 }
 const productsData = [
   {
-    name: 'TITANIUM DIOXIDE, ZINC OXIDE',
-    imageUrl: 'http://dummyimage.com/192x121.jpg/5fa2dd/ffffff',
-    description:
-      'Extraction of Face Subcutaneous Tissue and Fascia, Open Approach',
+    name: 'JavaScript',
+    imageUrl: 'https://i.ibb.co/4d8X1V8/Bean-JS.png',
+    description: 'Brew up some JavaScript with this versatile magic bean.',
     price: 11
   },
   {
-    name: 'TITANIUM DIOXIDE, ZINC OXIDES',
-    imageUrl: 'http://dummyimage.com/109x194.png/ff4444/ffffff',
-    description:
-      'Supplement Left Tympanic Membrane with Synthetic Substitute, Open Approach',
+    name: 'Express',
+    imageUrl: 'https://i.ibb.co/9GHTdfN/express.png',
+    description: 'App.use this bean for your server framework needs.',
     price: 46
   },
   {
-    name: 'Simvastatin',
-    imageUrl: 'http://dummyimage.com/140x218.bmp/ff4444/ffffff',
+    name: 'Sequelize',
+    imageUrl: 'https://i.ibb.co/tpCJt4p/Sequelize.png',
     description:
-      'Occlusion of Splenic Vein with Extraluminal Device, Percutaneous Endoscopic Approach',
+      'There is extra magic in this bean. Join statements not included.',
     price: 91
   },
   {
-    name: 'Zolpidem Tartrate',
-    imageUrl: 'http://dummyimage.com/159x136.jpg/5fa2dd/ffffff',
+    name: 'Node',
+    imageUrl: 'https://i.ibb.co/85Jgw2T/node.png',
     description:
-      'Planar Nuclear Medicine Imaging of Cerebrospinal Fluid using Indium 111 (In-111)',
+      'A bean that allows you to NPM plant whatever your heart desires.',
     price: 46
   },
   {
-    name: 'digoxin',
-    imageUrl: 'http://dummyimage.com/139x134.bmp/ff4444/ffffff',
+    name: 'React',
+    imageUrl: 'https://i.ibb.co/P9snRrk/react.png',
     description:
-      'Supplement Left Lacrimal Bone with Synthetic Substitute, Percutaneous Approach',
+      'A front-end bean for creating a single-beanstalk application.',
     price: 88
   },
   {
-    name: 'Triclosan',
-    imageUrl: 'http://dummyimage.com/199x191.jpg/dddddd/000000',
-    description: 'Division of Left Glenoid Cavity, Open Approach',
-    price: 40
+    name: 'React-Redux',
+    imageUrl: 'https://i.ibb.co/X5T7Zvs/reactredux.png',
+    description: 'Two beans in a pod for predictable state management.',
+    price: 100
   },
   {
-    name: 'Gabapentin',
-    imageUrl: 'http://dummyimage.com/247x189.png/ff4444/ffffff',
-    description:
-      'Introduction of Electrolytic and Water Balance Substance into Genitourinary Tract, Via Natural or Artificial Opening Endoscopic',
+    name: 'CSS FlexBean',
+    imageUrl: 'https://i.ibb.co/YyhYV7P/css.png',
+    description: 'For building beautiful bean gardens.',
     price: 42
   },
   {
-    name: 'stannous fluoride',
-    imageUrl: 'http://dummyimage.com/210x164.bmp/ff4444/ffffff',
-    description:
-      'Removal of Nonautologous Tissue Substitute from Cervicothoracic Vertebral Joint, Percutaneous Endoscopic Approach',
+    name: 'Git',
+    imageUrl: 'https://i.ibb.co/59ZF7nj/git.png',
+    description: 'Beanstalk version control. Keep your gardens weed-free!',
     price: 60
   },
   {
-    name: 'HOMOSALATE',
-    imageUrl: 'http://dummyimage.com/124x214.png/ff4444/ffffff',
-    description:
-      'Removal of Nonautologous Tissue Substitute from Left Metacarpocarpal Joint, Percutaneous Endoscopic Approach',
+    name: 'TypeScript',
+    imageUrl: 'https://i.ibb.co/n1HVywD/typescript.png',
+    description: 'A friendly helping bean for optional static typing.',
     price: 43
   },
   {
-    name:
-      'Ascorbic Acid, Tocopheryl Acid Succinate, Thiamine, Riboflavin, Niacinamide, Pyridoxine, Folic Acid, Cobalamin, Biotin, Pantothenic Acid, Zinc, Selenium',
-    imageUrl: 'http://dummyimage.com/174x228.bmp/ff4444/ffffff',
-    description:
-      'Drainage of Left Nipple, Via Natural or Artificial Opening Endoscopic, Diagnostic',
+    name: 'Chai',
+    imageUrl: 'https://i.ibb.co/JzdnSsr/chai.png',
+    description: 'A bean to test your garden at the roots.',
     price: 89
-  },
-  {
-    name: 'Duloxetine Hydrochloride',
-    imageUrl: 'http://dummyimage.com/215x195.bmp/ff4444/ffffff',
-    description:
-      'Insertion of Infusion Device into Epididymis and Spermatic Cord, Via Natural or Artificial Opening',
-    price: 19
-  },
-  {
-    name: 'TRICLOSAN',
-    imageUrl: 'http://dummyimage.com/151x172.png/ff4444/ffffff',
-    description:
-      'Dilation of Coronary Artery, One Artery, Bifurcation, with Radioactive Intraluminal Device, Percutaneous Approach',
-    price: 92
-  },
-  {
-    name: 'ZINC OXIDE, OCTISALATE, OCTINOXATE, TITANIUM DIOXIDE',
-    imageUrl: 'http://dummyimage.com/188x108.bmp/5fa2dd/ffffff',
-    description:
-      'Therapeutic Exercise Treatment of Neurological System - Whole Body',
-    price: 17
-  },
-  {
-    name: 'furosemide',
-    imageUrl: 'http://dummyimage.com/180x184.png/ff4444/ffffff',
-    description:
-      'Bypass Right Hypogastric Vein to Lower Vein with Autologous Venous Tissue, Open Approach',
-    price: 87
-  },
-  {
-    name: 'PYRITHIONE ZINC',
-    imageUrl: 'http://dummyimage.com/134x216.bmp/5fa2dd/ffffff',
-    description:
-      'Bypass Thoracic Aorta, Descending to Subclavian with Autologous Arterial Tissue, Percutaneous Endoscopic Approach',
-    price: 54
-  },
-  {
-    name: 'ALCOHOL',
-    imageUrl: 'http://dummyimage.com/159x173.png/dddddd/000000',
-    description:
-      'Drainage of Right Subclavian Vein with Drainage Device, Percutaneous Endoscopic Approach',
-    price: 81
-  },
-  {
-    name: 'TITANIUM DIOXIDE, OCTINOXATE',
-    imageUrl: 'http://dummyimage.com/182x145.bmp/dddddd/000000',
-    description:
-      'Introduction of Radioactive Substance into Upper GI, Via Natural or Artificial Opening Endoscopic',
-    price: 37
-  },
-  {
-    name: 'TRICLOSAN',
-    imageUrl: 'http://dummyimage.com/158x109.jpg/ff4444/ffffff',
-    description: 'Destruction of Peroneal Nerve, Open Approach',
-    price: 82
-  },
-  {
-    name: 'LIDOCAINE HYDROCHLORIDE',
-    imageUrl: 'http://dummyimage.com/182x223.bmp/5fa2dd/ffffff',
-    description: 'Fragmentation in Urethra, External Approach',
-    price: 8
-  },
-  {
-    name: 'Doxylamine succinate',
-    imageUrl: 'http://dummyimage.com/204x223.bmp/ff4444/ffffff',
-    description:
-      'Removal of Synthetic Substitute from Facial Bone, Percutaneous Approach',
-    price: 19
   }
+  // {
+  //   name: 'Duloxetine Hydrochloride',
+  //   imageUrl: 'http://dummyimage.com/215x195.bmp/ff4444/ffffff',
+  //   description:
+  //     'Insertion of Infusion Device into Epididymis and Spermatic Cord, Via Natural or Artificial Opening',
+  //   price: 19
+  // },
+  // {
+  //   name: 'TRICLOSAN',
+  //   imageUrl: 'http://dummyimage.com/151x172.png/ff4444/ffffff',
+  //   description:
+  //     'Dilation of Coronary Artery, One Artery, Bifurcation, with Radioactive Intraluminal Device, Percutaneous Approach',
+  //   price: 92
+  // },
+  // {
+  //   name: 'ZINC OXIDE, OCTISALATE, OCTINOXATE, TITANIUM DIOXIDE',
+  //   imageUrl: 'http://dummyimage.com/188x108.bmp/5fa2dd/ffffff',
+  //   description:
+  //     'Therapeutic Exercise Treatment of Neurological System - Whole Body',
+  //   price: 17
+  // },
+  // {
+  //   name: 'furosemide',
+  //   imageUrl: 'http://dummyimage.com/180x184.png/ff4444/ffffff',
+  //   description:
+  //     'Bypass Right Hypogastric Vein to Lower Vein with Autologous Venous Tissue, Open Approach',
+  //   price: 87
+  // },
+  // {
+  //   name: 'PYRITHIONE ZINC',
+  //   imageUrl: 'http://dummyimage.com/134x216.bmp/5fa2dd/ffffff',
+  //   description:
+  //     'Bypass Thoracic Aorta, Descending to Subclavian with Autologous Arterial Tissue, Percutaneous Endoscopic Approach',
+  //   price: 54
+  // },
+  // {
+  //   name: 'ALCOHOL',
+  //   imageUrl: 'http://dummyimage.com/159x173.png/dddddd/000000',
+  //   description:
+  //     'Drainage of Right Subclavian Vein with Drainage Device, Percutaneous Endoscopic Approach',
+  //   price: 81
+  // },
+  // {
+  //   name: 'TITANIUM DIOXIDE, OCTINOXATE',
+  //   imageUrl: 'http://dummyimage.com/182x145.bmp/dddddd/000000',
+  //   description:
+  //     'Introduction of Radioactive Substance into Upper GI, Via Natural or Artificial Opening Endoscopic',
+  //   price: 37
+  // },
+  // {
+  //   name: 'TRICLOSAN',
+  //   imageUrl: 'http://dummyimage.com/158x109.jpg/ff4444/ffffff',
+  //   description: 'Destruction of Peroneal Nerve, Open Approach',
+  //   price: 82
+  // },
+  // {
+  //   name: 'LIDOCAINE HYDROCHLORIDE',
+  //   imageUrl: 'http://dummyimage.com/182x223.bmp/5fa2dd/ffffff',
+  //   description: 'Fragmentation in Urethra, External Approach',
+  //   price: 8
+  // },
+  // {
+  //   name: 'Doxylamine succinate',
+  //   imageUrl: 'http://dummyimage.com/204x223.bmp/ff4444/ffffff',
+  //   description:
+  //     'Removal of Synthetic Substitute from Facial Bone, Percutaneous Approach',
+  //   price: 19
+  // }
 ]
 
 // We've separated the `seed` function from the `runSeed` function.
@@ -207,7 +200,7 @@ const productsData = [
 // The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   try {
-    console.log('seeding...')
+    console.log('Seeding magic beans...')
 
     await seed()
 
