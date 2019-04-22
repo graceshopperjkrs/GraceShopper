@@ -9,6 +9,8 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
+//ToDo: Configure secret key for Heroku Env.
+// const stripe = require('stripe')('sk_test_0eInzLw8GO8ZLYB3mvEWqsJW00B6pYnz5m')
 const socketio = require('socket.io')
 module.exports = app
 
@@ -47,7 +49,7 @@ const createApp = () => {
   // body parsing middleware
   app.use(express.json())
   app.use(express.urlencoded({extended: true}))
-
+  app.use(require('body-parser').text())
   // compression middleware
   app.use(compression())
 
@@ -109,7 +111,7 @@ const syncDb = () => db.sync()
 
 async function bootApp() {
   await sessionStore.sync()
-  await syncDb({force:true});
+  await syncDb({force: true})
   await createApp()
   await startListening()
 }
