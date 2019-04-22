@@ -8,24 +8,24 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>JoKeRS Magic Beans</h1>
     <nav>
-      <div>
-        {/* The navbar will show these links before you log in */}
+      {/* The navbar will show these links before you log in */}
+      <div className="navProducts">
         <Link to="/home">Home</Link>
         <Link to="/">All Products</Link>
         <Link to="/cart">Cart</Link>
-        {isLoggedIn ? (
-          <div className="login">
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-        ) : (
-          <div className="login">
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-        )}
       </div>
+      {isLoggedIn ? (
+        <div className="navLogin">
+          <a href="#" onClick={handleClick}>
+            Logout
+          </a>
+        </div>
+      ) : (
+        <div className="navLogin">
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
+        </div>
+      )}
     </nav>
     <hr />
   </div>

@@ -13,7 +13,7 @@ import './socket'
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      //TODO: Hide key in Heroku app.
+      {/* TODO: Hide key in Heroku app. */}
       <StripeProvider apiKey="pk_test_ZTj9t26glwu3WoMuiOJpqQgr00cxP37jDf">
         <Elements>
           <App />
