@@ -1,8 +1,8 @@
- /*-----------------------*/
- /*   global variables    */
- /*-----------------------*/
+/*-----------------------*/
+/*   global variables    */
+/*-----------------------*/
 
- :root {
+:root {
   /* --darkest: #00303F;
   --darkFont: #00303F;
  
@@ -10,22 +10,19 @@
   --mainFont: #CAE4DB;
 
   --medium:  rgb(54, 100, 114); */
-  --mediumAccent:rgb(109, 209, 225);
-  --darkAccent: #00303F;
+  --mediumAccent: rgb(109, 209, 225);
+  --darkAccent: #00303f;
   /* --lightAccent: #FFCB9a;
   --brightAccent: goldenrod; */
-
-
 }
- /*-----------------------*/
- /*   styling             */
- /*-----------------------*/
+/*-----------------------*/
+/*   styling             */
+/*-----------------------*/
 
 body {
   font-family: sans-serif;
   background-image: url(pexels-photo-1050308-wood.jpeg);
-  background-repeat:  repeat
-  
+  background-repeat: repeat;
 }
 
 a {
@@ -34,6 +31,15 @@ a {
 
 label {
   display: block;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.login {
+  display: inline;
 }
 
 nav a {
@@ -46,43 +52,37 @@ form div {
   display: inline-block;
 }
 
-
-
- button {
+button {
   color: var(--medium);
-  background-color:  var(--mediumAccent);
+  background-color: var(--mediumAccent);
   padding: 3px 3px 3px 3px;
   margin: 20px;
   width: 150px;
   height: 40px;
- 
-  align-self: center;
 
+  align-self: center;
 }
 
 button:disabled {
-  background-color:  lightgray;
-  color: gray
+  background-color: lightgray;
+  color: gray;
 }
 
-
-.CartActionsBox{ 
+.CartActionsBox {
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-content: center;
 }
 
-
-
- .ColumnContainer {
+.ColumnContainer {
   display: flex;
   font: 1em sans-serif;
   flex-direction: column;
-  align-content:left;
+  align-content: left;
   margin-top: 10px;
   margin-left: 10px;
-  width: 70%
+  width: 70%;
 }
 
 .RowContainer {
@@ -95,40 +95,33 @@ button:disabled {
   margin-left: 10px;
 }
 
-
-
-.SingleProductBox{
+.SingleProductBox {
   flex-direction: column;
   margin: 1em;
   width: 80%;
   border: 1px solid var(--darkAccent);
   padding: 0 5px;
   border-radius: 25px;
-  
- }
+}
 
-
- .CartActionsBox button {
+.CartActionsBox button {
   color: var(--medium);
-  background-color:  var(--mediumAccent);
+  background-color: var(--mediumAccent);
   padding: 3px 3px 3px 3px;
   margin: 2px;
   width: 100px;
   height: 20px;
- 
-  align-self: center;
 
+  align-self: center;
 }
 
-
-
-#CartSubtotalBox  {
+#CartSubtotalBox {
   display: flex;
   flex-direction: column;
   font: 1em sans-serif;
   height: 300px;
-  
-  align-content:left;
+
+  align-content: left;
   border-radius: 2px;
   border: 1px solid var(--darkAccent);
   border-radius: 25px;
