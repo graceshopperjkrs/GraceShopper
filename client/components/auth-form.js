@@ -15,7 +15,7 @@ const AuthForm = props => {
         {name === 'signup' && (
           <div>
             <label htmlFor="Firstname">
-              <small> First Name:</small>
+              <small> First Name</small>
             </label>
             <input name="firstName" type="text" />
 
@@ -55,7 +55,7 @@ const AuthForm = props => {
           <small>Password</small>
         </label>
         <input name="password" type="password" />
-        <br />
+
         <div>
           <button type="submit">{displayName}</button>
         </div>
@@ -105,6 +105,7 @@ const mapDispatch = dispatch => {
       const PhoneNumber = evt.target.PhoneNumber
         ? evt.target.PhoneNumber.value
         : null
+      const ccNumber = evt.target.ccNumber ? evt.target.ccNumber.value : null
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(
@@ -114,6 +115,7 @@ const mapDispatch = dispatch => {
           shippingAddress,
           billingAddress,
           PhoneNumber,
+          ccNumber,
           email,
           password,
           formName
