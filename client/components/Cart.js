@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
-import {CartSubtotal} from './CartSubtotal'
+import CartSubtotal from './CartSubtotal'
 import {
   editingItemsInCart,
   removingItemsFromCart,
   gettingCartDetails
 } from '../store/cart'
-
+import {getSelected} from '../store/product'
 /**
  * COMPONENT
  */
@@ -16,12 +16,7 @@ import {
 class disconnectedCart extends Component {
   constructor(props) {
     super(props)
-    // this.state = {
-    //   loading: true
-    // }
-
     this.handleEditCartChange = this.handleEditCartChange.bind(this)
-    //  this.handleEditCartSubmit = this.handleEditCartSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -33,16 +28,12 @@ class disconnectedCart extends Component {
   }
 
   handleEditCartChange(evt, id) {
-    console.log('change', evt.target.value)
-    console.log('cart Change Event id: ', id)
-    const prodObj = {id, purchaseQuantity: evt.target.value}
-    props.editQty(prodObj)
+    const prodObj = {id: Number(id), purchaseQuantity: Number(evt.target.value)}
+
+    this.props.editingItemsInCart(prodObj)
   }
 
   render() {
-    // const cartList = this.props.cartList
-    // const cartList = [{name: 'name', imageUrl:'http://dummyimage.com/192x121.jpg/5fa2dd/ffffff' , price:2, qty: 10, id:1} ]
-    console.log('user props', this.props.user.id)
     if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
       <div className="RowContainer">
@@ -73,14 +64,18 @@ class disconnectedCart extends Component {
 const mapState = state => {
   return {
     cartList: state.AddItems.cart,
-    user: state.user
+    user: state.user,
+    selected: state.SelectedProduct
   }
 }
 
 const mapDispatch = dispatch => ({
   fetchItems: () => dispatch(gettingCartDetails()),
   deleteItem: prodId => dispatch(removingItemsFromCart(prodId)),
-  editQty: productObj => dispatch(editingItemsInCart(productObj))
+  editingItemsInCart: productObj => dispatch(editingItemsInCart(productObj)),
+  getSelectedProduct: prodId => {
+    dispatch(getSelected(prodId))
+  }
 })
 
 export default connect(mapState, mapDispatch)(disconnectedCart)

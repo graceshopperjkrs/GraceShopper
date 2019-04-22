@@ -28,6 +28,7 @@ router.get('/', async (req, res, next) => {
 
 //create cart
 router.post('/', async (req, res, next) => {
+  console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
@@ -55,20 +56,48 @@ router.post('/', async (req, res, next) => {
 //update
 
 router.put('/:productId', async (req, res, next) => {
-  const existingProduct = await Details.findByPk(req.params.productId)
-
-  if (!existingProduct) {
-    res.status(404).json('Product Not Found in Cart')
-  } else {
-    await Details.update(
-      {purchaseQuantity: req.body.purchaseQuantity},
-      {
-        where: {
-          productId: req.params.productId
-        },
-        returning: true
+  try {
+    const existingProduct = await Details.findAll({
+      where: {
+        productId: req.params.productId
+        //orderId: req.session.cookie.orderId,
       }
-    )
+    })
+
+    if (!existingProduct) {
+      res.status(404).json('Product Not Found in Cart')
+    } else {
+      await Details.update(
+        {purchaseQuantity: req.body.purchaseQuantity},
+        {
+          where: {
+            //orderId: req.session.cookie.orderId,
+            productId: req.params.productId
+          },
+          returning: true
+        }
+      )
+      res.status(204).send(/*Updated*/)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:productId', async (req, res, next) => {
+  //console.log('cart DELETE route', req.session.cookie )
+  // THIS STILL NEEDS TO GET THE ORDER ID FROM SESSION
+  try {
+    await Details.destroy({
+      where: {
+        // something for session TO IDENTIFY ORDERID
+        //orderId: req.session.cookie.orderId,
+        productId: req.params.productId
+      }
+    })
+    res.status(204).send(/*Deleted*/)
+  } catch (err) {
+    next(err)
   }
 })
 
