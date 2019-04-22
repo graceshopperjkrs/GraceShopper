@@ -38,28 +38,37 @@ router.get('/', async (req, res, next) => {
     const orderId = orderInfo.id
     // const orderId = orderInfo
     // console.log(orderId)
-    console.log(' i am going to check order table now......')
-    const cartDetails = await Orders.findAll({
+    // console.log(' i am going to check order table now......')
+    const cartDetails = await Orders.findByPk(orderId, {
       include: [
         {
           model: Products,
           through: Details //['purchaseQuantity']
         }
-      ],
-      where: {
-        id: orderId
-      }
+      ]
     })
     console.log('this is cart.products', cartDetails)
     console.log(
       'this is cartdetails.products2',
-      cartDetails[0].dataValues.products
+      cartDetails.dataValues.products
     )
-    console.log(
+    const cartInfo = cartDetails.dataValues.products.map(ele => {
+      const dv = ele.dataValues
+      return {
+        productId: dv.id,
+        name: dv.name,
+        imageUrl: dv.imageUrl,
+        description: dv.description,
+        qty: dv.details.purchaseQuantity,
+        price: dv.price
+      }
+    })
+    /* console.log(
       'this is cartdetails.products.details',
       cartDetails[0].dataValues.products[0].dataValues.details
-    )
-    res.json(cartDetails)
+    ) */
+    console.log(cartInfo)
+    res.json(cartInfo)
   } catch (err) {
     next(err)
   }
@@ -72,13 +81,30 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    let newOrder = await Orders.create({
+    /*  let newOrder = await Orders.create({
       userId: req.user.id,
       orderStatusId: 1
+    }) */
+    /*  let orderId
+    let findOrder = await Orders.findAll({
+      where: {
+        userId: req.user.id
+      }
     })
+    let newOrderId = findOrder.id
 
-    newOrderId = newOrder.id
-    /*  let findOrder = await Orders.findOrCreate({
+    if (!newOrderId) {
+      orderId = await Orders.create({
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }
+      })
+    }
+    newOrderId = orderId.id
+    console.log('this is findOrder.id', newOrderId) */
+
+    let orderInfo = await Orders.findOrCreate({
       where: {
         userId: req.user.id,
         orderStatusId: 1
@@ -87,9 +113,10 @@ router.post('/', async (req, res, next) => {
         userId: req.user.id,
         orderStatusId: 1
       }
-    }) */
-    // console.log('this is findOrder', findOrder.id)
+    })
 
+    let newOrderId = orderInfo[0].dataValues.id
+    console.log('this is orderInfo', newOrderId)
     let newDetail = await Details.create({
       productId: req.body.productId,
       purchaseQuantity: req.body.purchaseQuantity,
