@@ -60,6 +60,11 @@ form div {
 
 }
 
+button:disabled {
+  background-color:  lightgray;
+  color: gray
+}
+
 
 .CartActionsBox{ 
   display: flex;
@@ -114,6 +119,8 @@ form div {
   align-self: center;
 
 }
+
+
 
 #CartSubtotalBox  {
   display: flex;
