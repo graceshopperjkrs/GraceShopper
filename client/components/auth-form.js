@@ -114,7 +114,6 @@ const mapDispatch = dispatch => {
           shippingAddress,
           billingAddress,
           PhoneNumber,
-          ccNumber,
           email,
           password,
           formName
