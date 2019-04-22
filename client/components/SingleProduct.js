@@ -6,10 +6,10 @@ import {Link} from 'react-router-dom'
  */
 
 export const SingleProduct = props => {
-  const {name, imageUrl, id, description} = props.product
+  const {name, imageUrl, id, description, price} = props.product
   const qty = props.path === 'Cart' ? props.product.purchaseQuantity : props.qty
-  const price =
-    props.path === 'Cart' ? props.product.purchasePrice : props.product.price
+  // const price =
+  // props.path === 'Cart' ? props.product.purchasePrice : props.product.price
   console.log(props.path, 'productId', props.product.productId)
   console.log(props.path, 'id', props.product.id)
   const productId =
