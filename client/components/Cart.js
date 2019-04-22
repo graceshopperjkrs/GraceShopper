@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
-import {editingItemsInCart, removingItemsFromCart} from '../store/cart'
+import {
+  editingItemsInCart,
+  removingItemsFromCart,
+  gettingCartDetails
+} from '../store/cart'
 import {getSelected} from '../store/product'
 /**
  * COMPONENT
@@ -13,14 +17,19 @@ class disconnectedCart extends Component {
   constructor(props) {
     super(props)
     this.handleEditCartChange = this.handleEditCartChange.bind(this)
-   
   }
 
+  componentDidMount() {
+    // this.setState({loading: false})
+    this.props.fetchItems()
+    console.log(this.props.cartList, 'Cart List from cart.js ')
 
+    // console.log(this.state.loading)
+  }
 
   handleEditCartChange(evt, id) {
     const prodObj = {id: Number(id), purchaseQuantity: Number(evt.target.value)}
-   
+
     this.props.editingItemsInCart(prodObj)
   }
 
@@ -31,8 +40,6 @@ class disconnectedCart extends Component {
         <div className="ColumnContainer">
           <ul>
             {this.props.cartList.map(product => (
-            
-                
               <li key={product.productId}>
                 <SingleProduct
                   product={product}
@@ -42,7 +49,6 @@ class disconnectedCart extends Component {
                   deleteItem={this.props.deleteItem}
                 />
               </li>
-                
             ))}
           </ul>
         </div>
@@ -58,14 +64,18 @@ class disconnectedCart extends Component {
 const mapState = state => {
   return {
     cartList: state.AddItems.cart,
+    user: state.user,
     selected: state.SelectedProduct
   }
 }
 
 const mapDispatch = dispatch => ({
+  fetchItems: () => dispatch(gettingCartDetails()),
   deleteItem: prodId => dispatch(removingItemsFromCart(prodId)),
   editingItemsInCart: productObj => dispatch(editingItemsInCart(productObj)),
-  getSelectedProduct: prodId => {dispatch(getSelected(prodId))  },
+  getSelectedProduct: prodId => {
+    dispatch(getSelected(prodId))
+  }
 })
 
 export default connect(mapState, mapDispatch)(disconnectedCart)

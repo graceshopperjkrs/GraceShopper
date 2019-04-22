@@ -8,7 +8,7 @@ import {addingItemstoCart, editingItemsInCart} from '../store/cart'
 class productDetail extends Component {
   constructor(props) {
     super(props)
-    this.state = {addQty: 0 } 
+    this.state = {addQty: 0}
     this.handleAddProductChange = this.handleAddProductChange.bind(this)
     this.handleAddProductSubmit = this.handleAddProductSubmit.bind(this)
   }
@@ -16,41 +16,39 @@ class productDetail extends Component {
   componentDidMount() {
     const id = this.props.match.params.productId
     this.props.getSelectedProduct(id)
-
-
   }
 
   handleAddProductSubmit(evt) {
     evt.preventDefault()
 
-    let cartItem =  this.props.cart.filter( el=> el.productId=== this.props.selected.id) 
+    let cartItem = this.props.cart.filter(
+      el => el.productId === this.props.selected.id
+    )
 
-
-    if (cartItem.length === 0) {
-      let productObj = { 
+    if (cartItem && cartItem.length === 0) {
+      let productObj = {
         productId: this.props.selected.id,
         purchaseQuantity: Number(this.state.addQty),
         purchasePrice: Number(this.props.selected.price),
         imageUrl: this.props.selected.imageUrl,
-        name: this.props.selected.name 
+        name: this.props.selected.name
       }
-      this.props.addingItemstoCart(productObj) 
-    } else  {
-   
-      let productObj = {id:  this.props.selected.id, 
-                        purchaseQuantity: Number(this.state.addQty),
-                       }
+      this.props.addingItemstoCart(productObj)
+    } else {
+      let productObj = {
+        id: this.props.selected.id,
+        purchaseQuantity: Number(this.state.addQty)
+      }
       this.props.editingItemsInCart(productObj)
     }
   }
 
   handleAddProductChange(evt) {
-
     this.setState({addQty: evt.target.value})
   }
 
   render() {
-   // console.log(this.props)
+    // console.log(this.props)
     if (!this.props.selected) {
       return 'Loading'
     }
@@ -76,11 +74,11 @@ class productDetail extends Component {
 }
 
 const mapState = state => {
-
   return {
-  selected: state.SelectedProduct,
-  cart: state.AddItems.cart 
-} }
+    selected: state.SelectedProduct,
+    cart: state.AddItems.cart
+  }
+}
 
 const mapDispatch = dispatch => ({
   getSelectedProduct: id => {

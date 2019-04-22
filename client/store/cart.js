@@ -33,25 +33,25 @@ export const editQtyfromCart = item => ({
   type: EDIT_QTY_FROM_CART,
   item
 })
-export const getCart = () => ({
-  type: GET_CART
+export const getCart = item => ({
+  type: GET_CART,
+  item
 })
 
 // CALCULATE TOTAL PRICE
 function totalCalculation(cart) {
-  
   let sum = cart.reduce((accm, item) => {
     return (accm += Number(item.purchaseQuantity) * Number(item.purchasePrice))
   }, 0)
- 
+
   return sum
 }
 //THUNKS
 
-export const initialCartorder = () => async dispatch => {
+export const gettingCartDetails = () => async dispatch => {
   try {
     const res = await axios.get('/api/cart')
-    dispatch(initialCart(res.data))
+    dispatch(getCart(res.data))
   } catch (err) {
     console.error(err)
   }
@@ -70,7 +70,6 @@ export const addingItemstoCart = item => async dispatch => {
 }
 
 export const removingItemsFromCart = id => async dispatch => {
- 
   try {
     console.log('delete thunk id:', id)
     const res = await axios.delete(`/api/cart/${id}`)
@@ -83,7 +82,6 @@ export const removingItemsFromCart = id => async dispatch => {
 
 export const editingItemsInCart = item => async dispatch => {
   try {
-    
     const res = await axios.put(`/api/cart/${item.id}`, item)
     dispatch(editQtyfromCart(item))
   } catch (err) {
@@ -104,7 +102,7 @@ export function AddItems(state = initialState, action) {
 
     case ADD_TO_CART:
       const newCart = [...state.cart, action.item]
-    
+
       const subtotal = totalCalculation(newCart)
       return {
         ...state,
@@ -115,8 +113,10 @@ export function AddItems(state = initialState, action) {
 
     case REMOVE_FROM_CART:
       console.log('reducer remove ', state.cart[0])
-      
-      let cartWithoutItem = [...state.cart].filter(item => action.id !== item.productId)
+
+      let cartWithoutItem = [...state.cart].filter(
+        item => action.id !== item.productId
+      )
       return {
         ...state,
         cart: cartWithoutItem,
@@ -125,25 +125,24 @@ export function AddItems(state = initialState, action) {
       }
 
     case EDIT_QTY_FROM_CART:
-
-      let cartItem = state.cart.filter(el => el.id===action.id)[0]
+      let cartItem = state.cart.filter(el => el.id === action.id)[0]
 
       cartItem = {...cartItem, purchaseQuantity: action.item.purchaseQuantity}
-      let restOfCart = state.cart.filter(el => el.id!==action.id)
-      let editedCart = [...restOfCart, cartItem] 
+      let restOfCart = state.cart.filter(el => el.id !== action.id)
+      let editedCart = [...restOfCart, cartItem]
 
-      let editedSubTotal = totalCalculation( editedCart )
-      return { 
+      let editedSubTotal = totalCalculation(editedCart)
+      return {
         ...state,
         cart: editedCart,
         totalPrice: editedSubTotal,
-        totalItems:editedCart.length 
+        totalItems: editedCart.length
       }
 
     case GET_CART:
       return {
         ...state,
-        cart: state.cart
+        cart: action.item
       }
 
     default:
