@@ -1,10 +1,12 @@
 const router = require('express').Router()
 const {Products, Orders, Details, OrderStatuses, User} = require('../db/models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 //get cart
 // Where: find by UserId or OrderId to come in findAll below.
-router.get('/', async (req, res, next) => {
-  console.log('this is req.user.id', req.user.id)
+/* router.get('/', async (req, res, next) => {
+  // console.log('this is req.user.id', req.user.id)
   try {
     const orderInfo = await Orders.findOne({
       where: {
@@ -13,13 +15,50 @@ router.get('/', async (req, res, next) => {
     })
     const orderId = orderInfo.id
     // const orderId = orderInfo
-    console.log(orderId)
+    // console.log(orderId)
     const cartDetails = await Details.findAll({
       where: {
         orderId: orderId
       }
     })
-    console.log(cartDetails)
+    // console.log(cartDetails)
+    res.json(cartDetails)
+  } catch (err) {
+    next(err)
+  }
+}) */
+router.get('/', async (req, res, next) => {
+  // console.log('this is req.user.id', req.user.id)
+  try {
+    const orderInfo = await Orders.findOne({
+      where: {
+        userId: req.user.id
+      }
+    })
+    const orderId = orderInfo.id
+    // const orderId = orderInfo
+    // console.log(orderId)
+    console.log(' i am going to check order table now......')
+    const cartDetails = await Orders.findAll({
+      include: [
+        {
+          model: Products,
+          through: Details //['purchaseQuantity']
+        }
+      ],
+      where: {
+        id: orderId
+      }
+    })
+    console.log('this is cart.products', cartDetails)
+    console.log(
+      'this is cartdetails.products2',
+      cartDetails[0].dataValues.products
+    )
+    console.log(
+      'this is cartdetails.products.details',
+      cartDetails[0].dataValues.products[0].dataValues.details
+    )
     res.json(cartDetails)
   } catch (err) {
     next(err)
@@ -28,7 +67,7 @@ router.get('/', async (req, res, next) => {
 
 //create cart
 router.post('/', async (req, res, next) => {
-  console.log('cart post', req.originalUrl, req.baseUrl)
+  // console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
@@ -38,7 +77,18 @@ router.post('/', async (req, res, next) => {
       orderStatusId: 1
     })
 
-    const newOrderId = newOrder.id
+    newOrderId = newOrder.id
+    /*  let findOrder = await Orders.findOrCreate({
+      where: {
+        userId: req.user.id,
+        orderStatusId: 1
+      },
+      defaults: {
+        userId: req.user.id,
+        orderStatusId: 1
+      }
+    }) */
+    // console.log('this is findOrder', findOrder.id)
 
     let newDetail = await Details.create({
       productId: req.body.productId,
