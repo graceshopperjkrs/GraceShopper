@@ -108,7 +108,7 @@ export function AddItems(state = initialState, action) {
         ...state,
         cart: newCart,
         totalPrice: subtotal,
-        totalItems: action.cart.length
+        totalItems: newCart.length
       }
 
     case REMOVE_FROM_CART:
