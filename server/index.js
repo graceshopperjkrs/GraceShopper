@@ -9,8 +9,6 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
-//ToDo: Configure secret key for Heroku Env.
-// const stripe = require('stripe')('sk_test_0eInzLw8GO8ZLYB3mvEWqsJW00B6pYnz5m')
 const socketio = require('socket.io')
 module.exports = app
 
