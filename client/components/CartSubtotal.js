@@ -11,7 +11,9 @@ class disconnectedCartSubtotal extends React.Component {
       <div id="CartSubtotalBox">
         <h3>
           {' '}
-          Your Cart has {this.props.totalItems}{' '}
+          Your Cart has
+          <br />
+          {this.props.totalItems}{' '}
           {this.props.totalItems === 1 ? 'item' : 'items'}{' '}
         </h3>
         <h3> Subtotal: ${this.props.totalPrice} </h3>
@@ -21,11 +23,11 @@ class disconnectedCartSubtotal extends React.Component {
             <h1>Checkout</h1>
           </Link>
         ) : (
-          <Link to={`/cart`}>
-            <h1>
+          <Link to="/cart">
+            <h3>
               <i className="fa fa-shopping-cart" />
               Go to Cart
-            </h1>
+            </h3>
           </Link>
         )}
       </div>

@@ -56,15 +56,18 @@ class productDetail extends Component {
     return (
       <div className="RowContainer">
         <div className="ColumnContainer">
-          <SingleProduct
-            product={this.props.selected}
-            qty={this.state.addQty}
-            path="ProductDetailView"
-            handleAddProductChange={this.handleAddProductChange}
-            handleAddProductSubmit={this.handleAddProductSubmit}
-          />
+          <ul>
+            <li>
+              <SingleProduct
+                product={this.props.selected}
+                qty={this.state.addQty}
+                path="ProductDetailView"
+                handleAddProductChange={this.handleAddProductChange}
+                handleAddProductSubmit={this.handleAddProductSubmit}
+              />
+            </li>
+          </ul>
         </div>
-
         <div>
           <CartSubtotal path="AllProducts" />
         </div>

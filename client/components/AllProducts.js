@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {SingleProduct} from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
@@ -16,7 +15,6 @@ export class AllProducts extends Component {
 
   componentDidMount() {
     this.props.getAllProducts()
-   
   }
 
   render() {
@@ -27,15 +25,15 @@ export class AllProducts extends Component {
     return (
       <div className="RowContainer">
         <div className="ColumnContainer">
-      <ul>
-        {allProducts.map(product => (
-          <li key={product.id}>
-            <SingleProduct product={product} path='AllProducts' />
-          </li>
-        ))}
-      </ul>
-      </div>
-          <CartSubtotal path='AllProducts'/>
+          <ul>
+            {allProducts.map(product => (
+              <li key={product.id}>
+                <SingleProduct product={product} path="AllProducts" />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <CartSubtotal path="AllProducts" />
       </div>
     )
   }
