@@ -26,11 +26,11 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
-    console.log('this is cart.products', cartDetails)
-    console.log(
-      'this is cartdetails.products2',
-      cartDetails.dataValues.products
-    )
+    // console.log('this is cart.products', cartDetails)
+    // console.log(
+    //   'this is cartdetails.products2',
+    //   cartDetails.dataValues.products
+    // )
     const cartInfo = cartDetails.dataValues.products.map(ele => {
       const dv = ele.dataValues
       return {
@@ -46,7 +46,7 @@ router.get('/', async (req, res, next) => {
       'this is cartdetails.products.details',
       cartDetails[0].dataValues.products[0].dataValues.details
     ) */
-    console.log(cartInfo)
+   // console.log(cartInfo)
     res.json(cartInfo)
   } catch (err) {
     next(err)
@@ -124,7 +124,7 @@ router.put('/:productId', async (req, res, next) => {
 })
 
 router.delete('/:productId', async (req, res, next) => {
-  //console.log('cart DELETE route', req.session.cookie )
+  console.log('cart DELETE route', req.params.productId)
   // THIS STILL NEEDS TO GET THE ORDER ID FROM SESSION
   try {
     await Details.destroy({

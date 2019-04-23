@@ -7,7 +7,7 @@ import {
   editingItemsInCart,
   addingItemstoCart,
   gettingCartDetails,
-  removeItemsfromCart
+  removingItemsFromCart
 } from '../store/cart'
 
 /**
@@ -51,7 +51,7 @@ class disconnectedSingleProduct extends React.Component  {
 
   render() {
     const {name, imageUrl, productId, description, price} = this.props.product
-    console.log('Single product shows qty', this.props.qtyInCart, this.state.newQty )
+    console.log('Single product shows productId', productId )
   return (
     <div className="SingleProductBox">
       <Link to={`/products/${productId}`}>
@@ -91,7 +91,8 @@ class disconnectedSingleProduct extends React.Component  {
           <div className="CartActionsBox">
             <i
               className="fas fa-trash"
-              onClick={() => this.props.deleteItem(productId)}
+              onClick={() =>  this.props.deleteItem(productId)}
+              
             />{' '}
             Remove Item
           </div>
@@ -105,7 +106,7 @@ class disconnectedSingleProduct extends React.Component  {
 }
 
 const mapState = (state,ownProps) =>{
-  console.log('single product ownProps:   ', ownProps)
+  //console.log('single product ownProps:   ', ownProps)
 
   const qtyInCart = state.AddItems.cart.reduce( (accum,el)=> {
     if (el.productId===ownProps.product.productId) {
@@ -125,7 +126,7 @@ const mapDispatch= dispatch => ({
   ),
   editingItemsInCart: productObj => dispatch(editingItemsInCart(productObj)),
   fetchItems: ()=> dispatch(gettingCartDetails),
-  deleteItem: (id)=> dispatch(removeItemsfromCart(id))
+  deleteItem: (id)=> dispatch(removingItemsFromCart(id))
 })
 
 const SingleProduct = connect(mapState, mapDispatch)(disconnectedSingleProduct)

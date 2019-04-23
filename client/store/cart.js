@@ -59,7 +59,7 @@ export const gettingCartDetails = () => async dispatch => {
 export const addingItemstoCart = item => async dispatch => {
   try {
     
-    console.log('adding items to cart', item)
+  //  console.log('adding items to cart', item)
   
     await axios.post('/api/cart', item)
   
@@ -74,7 +74,7 @@ export const addingItemstoCart = item => async dispatch => {
 
 export const removingItemsFromCart = id => async dispatch => {
   try {
-
+    console.log('remove thunk', `/api/cart/${id}`)
     await axios.delete(`/api/cart/${id}`)
 
     dispatch(removeItemsfromCart(id))
@@ -85,7 +85,7 @@ export const removingItemsFromCart = id => async dispatch => {
 
 export const editingItemsInCart = item => async dispatch => {
   try {
-    console.log('editing item thunk ', item)
+ //   console.log('editing item thunk ', item)
     await axios.put(`/api/cart/${item.id}`, item)
     dispatch(editQtyfromCart(item))
   } catch (err) {
