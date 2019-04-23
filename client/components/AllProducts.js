@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
-import {gettingAllProducts, gettingCartDetails} from '../store/product'
+import {gettingAllProducts} from '../store/product'
+import {gettingCartDetails} from '../store/cart'
 
 /**
  * COMPONENT
@@ -28,7 +29,10 @@ export class AllProducts extends Component {
           <ul>
             {allProducts.map(product => (
               <li key={product.id}>
-                <SingleProduct product={{...product, productId: product.id } }path="AllProducts" />
+                <SingleProduct
+                  product={{...product, productId: product.id}}
+                  path="AllProducts"
+                />
               </li>
             ))}
           </ul>
