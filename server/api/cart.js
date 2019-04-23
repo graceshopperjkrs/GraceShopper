@@ -1,9 +1,15 @@
 const router = require('express').Router()
-const {Products, Orders, Details, OrderStatuses, User} = require('../db/models')
+const {
+  Products,
+  Orders,
+  Details,
+  OrderStatuses,
+  User
+} = require('../db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
-//get cart
+// get cart
 // Where: find by UserId or OrderId to come in findAll below.
 
 router.get('/', async (req, res, next) => {
@@ -20,7 +26,7 @@ router.get('/', async (req, res, next) => {
       })
     } else {
       orderInfo = await Orders.findOne({
-        //user IS logged in, see if there is an existing order
+        // user IS logged in, see if there is an existing order
         where: {
           userId: req.user.id,
           orderStatusId: 1
@@ -56,7 +62,7 @@ router.get('/', async (req, res, next) => {
         }
       })
 
-      console.log(cartInfo)
+      // console.log(cartInfo)
       res.json(cartInfo)
     }
   } catch (err) {
@@ -64,11 +70,11 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//create cart
+// create cart
 router.post('/', async (req, res, next) => {
-  // console.log('cart post', req.originalUrl, req.baseUrl)
+  // //console.log('cart post', req.originalUrl, req.baseUrl)
   try {
-    //before we add to table , first check if order id already exists for a user.
+    // before we add to table , first check if order id already exists for a user.
 
     let sessionVal = req.session.id
 
@@ -79,7 +85,7 @@ router.post('/', async (req, res, next) => {
       })
       let id = newOrder.id
 
-      let newDetail = await Details.create({
+      await Details.create({
         productId: req.body.productId,
         purchaseQuantity: req.body.qty,
         purchasePrice: req.body.price,
@@ -98,6 +104,14 @@ router.post('/', async (req, res, next) => {
       })
 
       let newOrderId = orderInfo[0].dataValues.id
+      // console.log('orderinfo 0', orderInfo[0])
+      // console.log('order info 1', orderInfo[1])
+      const createdOne = orderInfo[1]
+
+      // kludge : destroy first
+      await Details.destroy({
+        where: { productId: req.body.productId, orderId: newOrderId }
+      })
 
       let newDetail = await Details.create({
         productId: req.body.productId,
@@ -105,7 +119,7 @@ router.post('/', async (req, res, next) => {
         purchasePrice: req.body.price,
         orderId: newOrderId
       })
-
+      req.session.save(newDetail)
       res.send(newDetail)
     }
   } catch (err) {
@@ -113,12 +127,21 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-//update
+// update
 
 router.put('/:productId', async (req, res, next) => {
+  // console.log('reqsession', req.session)
+  // console.log('req.user', req.user)
+  // console.log('req.data', req.data)
   try {
+    const currOrder = await Orders.findOne({
+      where: { userId: req.user.id, orderStatusId: 1 }
+    })
+    /// /console.log('currOrder', currOrder.id)
+    const orderId = currOrder.id
     const existingProduct = await Details.findAll({
       where: {
+        orderId: orderId,
         productId: req.params.productId
       }
     })
@@ -128,17 +151,19 @@ router.put('/:productId', async (req, res, next) => {
     } else if (req.body.qty === 0) {
       await Details.destroy({
         where: {
-          productId: req.params.productId
+          productId: req.params.productId,
+          orerId: orderId
         }
       })
       res.sendStatus(204)
     } else {
       await Details.update(
-        {purchaseQuantity: req.body.qty},
+        { purchaseQuantity: req.body.qty },
         {
           where: {
-            //orderId: req.session.cookie.orderId,
-            productId: req.params.productId
+            // orderId: req.session.cookie.orderId,
+            productId: req.params.productId,
+            orderId: orderId
           },
           returning: true
         }
@@ -149,7 +174,7 @@ router.put('/:productId', async (req, res, next) => {
     next(err)
   }
 })
-//this put will update orderstus in cart once payment is made and transaction is complete
+// this put will update orderstus in cart once payment is made and transaction is complete
 router.put('/', async (req, res, next) => {
   try {
     const existingOrder = await Orders.findOne({
@@ -160,7 +185,7 @@ router.put('/', async (req, res, next) => {
 
     if (existingOrder) {
       await Orders.update(
-        {orderStatusId: 2},
+        { orderStatusId: 2 },
         {
           where: {
             id: req.body.orderId
@@ -176,14 +201,21 @@ router.put('/', async (req, res, next) => {
 })
 
 router.delete('/:productId', async (req, res, next) => {
-  console.log('cart DELETE route', req.params.productId)
+  // console.log('cart DELETE route', req.params.productId)
   // THIS STILL NEEDS TO GET THE ORDER ID FROM SESSION
   try {
+    const currOrder = await Orders.findOne({
+      where: { userId: req.user.id, orderStatusId: 1 }
+    })
+    /// /console.log('currOrder', currOrder.id)
+    const orderId = currOrder.id
+
     await Details.destroy({
       where: {
         // something for session TO IDENTIFY ORDERID
-        //orderId: req.session.cookie.orderId,
-        productId: req.params.productId
+        // orderId: req.session.cookie.orderId,
+        productId: req.params.productId,
+        orderId: orderId
       }
     })
     res.sendStatus(204)

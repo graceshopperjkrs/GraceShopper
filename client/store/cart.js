@@ -1,7 +1,7 @@
 import axios from 'axios'
 import history from '../history'
 
-//INITIAL STATE
+// INITIAL STATE
 const initialState = {
   cart: [] // cart will contain {productId, items, qty, price, imageUrl}
   // totalItems: 0,
@@ -15,7 +15,7 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const EDIT_QTY_FROM_CART = 'EDIT_QTY_FROM_CART'
 export const GET_CART = 'GET_CART'
 
-//ACTION CREATOR
+// ACTION CREATOR
 export const initialCart = () => ({
   type: INITIAL_CART,
   cart: initialState.cart
@@ -38,11 +38,11 @@ export const getCart = item => ({
   item
 })
 
-//THUNKS
+// THUNKS
 
 export const gettingCartDetails = () => async dispatch => {
   try {
-    console.log('getting cart details')
+    // console.log('getting cart details')
     const res = await axios.get('/api/cart')
 
     dispatch(getCart(res.data))
@@ -52,7 +52,6 @@ export const gettingCartDetails = () => async dispatch => {
 }
 export const addingItemstoCart = item => async dispatch => {
   try {
-
     await axios.post('/api/cart', item)
 
     dispatch(addItemstoCart(item))
@@ -63,7 +62,6 @@ export const addingItemstoCart = item => async dispatch => {
 
 export const removingItemsFromCart = id => async dispatch => {
   try {
-
     await axios.delete(`/api/cart/${id}`)
 
     dispatch(removeItemsfromCart(id))
@@ -74,7 +72,7 @@ export const removingItemsFromCart = id => async dispatch => {
 
 export const editingItemsInCart = item => async dispatch => {
   try {
-    //   console.log('editing item thunk ', item)
+    //   //console.log('editing item thunk ', item)
     await axios.put(`/api/cart/${item.id}`, item)
     dispatch(editQtyfromCart(item))
   } catch (err) {
@@ -82,8 +80,8 @@ export const editingItemsInCart = item => async dispatch => {
   }
 }
 
-//REDUCER
-export function AddItems(state = initialState, action) {
+// REDUCER
+export function AddItems (state = initialState, action) {
   switch (action.type) {
     // do we need this initial cart?
     case INITIAL_CART:
@@ -105,13 +103,11 @@ export function AddItems(state = initialState, action) {
       }
 
     case EDIT_QTY_FROM_CART:
-
       // eslint-disable-next-line no-case-declarations
       const newCart = state.cart.map(el => {
         if (el.productId === action.item.id) {
-          console.log('editing product in map')
+          // console.log('editing product in map')
           el.qty = action.item.qty
-
         }
         return el
       })

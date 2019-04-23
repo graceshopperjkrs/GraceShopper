@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import SingleProduct from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
-import {gettingAllProducts} from '../store/product'
-import {gettingCartDetails} from '../store/cart'
+import { gettingAllProducts } from '../store/product'
+import { gettingCartDetails } from '../store/cart'
 
 /**
  * COMPONENT
@@ -14,30 +14,30 @@ export class AllProducts extends Component {
   //   super(props)
   // }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.getAllProducts()
   }
 
-  render() {
+  render () {
     const allProducts = this.props.AllProducts
 
     if (!allProducts) return 'loading'
-    // console.log(allProducts[0])
+    // //console.log(allProducts[0])
     return (
-      <div className="RowContainer">
-        <div className="ColumnContainer">
+      <div className='RowContainer'>
+        <div className='ColumnContainer'>
           <ul>
             {allProducts.map(product => (
               <li key={product.id}>
                 <SingleProduct
-                  product={{...product, productId: product.id}}
-                  path="AllProducts"
+                  product={{ ...product, productId: product.id }}
+                  path='AllProducts'
                 />
               </li>
             ))}
           </ul>
         </div>
-        <CartSubtotal path="AllProducts" />
+        <CartSubtotal path='AllProducts' />
       </div>
     )
   }
@@ -60,7 +60,10 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(
+  mapState,
+  mapDispatch
+)(AllProducts)
 
 /**
  * PROP TYPES
