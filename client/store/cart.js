@@ -38,21 +38,13 @@ export const getCart = item => ({
   item
 })
 
-// // CALCULATE TOTAL PRICE
-// function totalCalculation(cart) {
-//   let sum = cart.reduce((accm, item) => {
-//     return (accm + Number(item.qty) * Number(item.price))
-//   }, 0)
-
-//   return sum
-// }
 //THUNKS
 
 export const gettingCartDetails = () => async dispatch => {
   try {
     console.log('getting cart details')
     const res = await axios.get('/api/cart')
-    console.log('this is res', res.data)
+
     dispatch(getCart(res.data))
   } catch (err) {
     console.error(err)
@@ -60,13 +52,9 @@ export const gettingCartDetails = () => async dispatch => {
 }
 export const addingItemstoCart = item => async dispatch => {
   try {
-    //  console.log('adding items to cart', item)
 
     await axios.post('/api/cart', item)
 
-    // let newItem = res.data
-    // newItem['imageUrl'] = item.imageUrl
-    // newItem['name'] = item.name
     dispatch(addItemstoCart(item))
   } catch (err) {
     console.error(err)
@@ -75,7 +63,7 @@ export const addingItemstoCart = item => async dispatch => {
 
 export const removingItemsFromCart = id => async dispatch => {
   try {
-    console.log('remove thunk', `/api/cart/${id}`)
+
     await axios.delete(`/api/cart/${id}`)
 
     dispatch(removeItemsfromCart(id))
@@ -117,11 +105,13 @@ export function AddItems(state = initialState, action) {
       }
 
     case EDIT_QTY_FROM_CART:
+
       // eslint-disable-next-line no-case-declarations
       const newCart = state.cart.map(el => {
         if (el.productId === action.item.id) {
           console.log('editing product in map')
           el.qty = action.item.qty
+
         }
         return el
       })

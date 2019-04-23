@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
-import {gettingAllProducts} from '../store/product'
+import {gettingAllProducts, gettingCartDetails} from '../store/product'
 
 /**
  * COMPONENT
@@ -51,7 +51,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getAllProducts: () => dispatch(gettingAllProducts())
+    getAllProducts: () => dispatch(gettingAllProducts()),
+    getCartItems: () => dispatch(gettingCartDetails())
   }
 }
 

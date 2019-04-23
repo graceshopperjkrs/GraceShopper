@@ -10,39 +10,46 @@ router.get('/', async (req, res, next) => {
 
   try {
     let orderInfo
+   
+    // User is not logged in, is there a session active?
     if (req.user === undefined) {
       orderInfo = await Orders.findOne({
         where: {
-          sessionId: req.session.id
-        }
-      })
-    } else {
-      orderInfo = await Orders.findOne({
-        where: {
-          userId: req.user.id
+          sessionId: req.session.id,
+          orderStatusId: 1
         }
       })
     }
+    else {
+      orderInfo = await Orders.findOne({   //user IS logged in, see if there is an existing order
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }   
+    // (still for logged in user, if there is no existing order, create one)
+    if (!orderInfo) {
+      orderInfo = await Orders.create({
+        userId: req.user.id,
+        orderStatusId: 1
+    
+    } 
+
+      })
+    }  
     const orderId = orderInfo.id
-    // const orderId = orderInfo
-    console.log('get route:  orderId', orderId)
-    // console.log(' i am going to check order table now......')
     const cartDetails = await Orders.findByPk(orderId, {
       include: [
         {
           model: Products,
-          through: Details //['purchaseQuantity']
+          through: Details 
         }
       ]
     })
-    // console.log('this is cart.products', cartDetails)
-    // console.log(
-    //   'this is cartdetails.products2',
-    //   cartDetails.dataValues.products
-    // )
+  
     const cartInfo = cartDetails.dataValues.products.map(ele => {
       const dv = ele.dataValues
       return {
+        orderId: orderId,
         productId: dv.id,
         name: dv.name,
         imageUrl: dv.imageUrl,
@@ -51,10 +58,7 @@ router.get('/', async (req, res, next) => {
         price: dv.price
       }
     })
-    /* console.log(
-      'this is cartdetails.products.details',
-      cartDetails[0].dataValues.products[0].dataValues.details
-    ) */
+    
     console.log(cartInfo)
     res.json(cartInfo)
   } catch (err) {
@@ -67,9 +71,6 @@ router.post('/', async (req, res, next) => {
   // console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     //before we add to table , first check if order id already exists for a user.
-    //if order id exists then use that else create a new orderid.
-
-
 
     let sessionVal = req.session.id
 
@@ -79,7 +80,6 @@ router.post('/', async (req, res, next) => {
         sessionId: sessionVal
       })
       let id = newOrder.id
-
 
       let newDetail = await Details.create({
         productId: req.body.productId,
@@ -111,7 +111,7 @@ router.post('/', async (req, res, next) => {
       })
 
 
-      res.send(newDetail) //what to send
+      res.send(newDetail) 
     }
   } catch (err) {
     next(err)
@@ -149,6 +149,32 @@ router.put('/:productId', async (req, res, next) => {
         }
       )
        res.sendStatus(204)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+//this put will update orderstus in cart once payment is made and transaction is complete
+router.put('/', async (req, res, next) => {
+  try {
+   
+    const existingOrder = await Orders.findOne({
+      where: {
+        id: req.body.orderId
+      }
+    })
+   
+    if (existingOrder) {
+      await Orders.update(
+        {orderStatusId: 2},
+        {
+          where: {
+            id: req.body.orderId
+          },
+          returning: true
+        }
+      )
+      res.sendStatus(204)
     }
   } catch (err) {
     next(err)
