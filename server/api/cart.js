@@ -7,7 +7,7 @@ const Op = Sequelize.Op
 // Where: find by UserId or OrderId to come in findAll below.
 
 router.get('/', async (req, res, next) => {
-  // console.log('this is req.user.id', req.user.id)
+  console.log('this is req.user.id', req.user.id)
   try {
     const orderInfo = await Orders.findOne({
       where: {
@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
     })
     const orderId = orderInfo.id
     // const orderId = orderInfo
-    // console.log(orderId)
+    console.log('get route:  orderId', orderId)
     // console.log(' i am going to check order table now......')
     const cartDetails = await Orders.findByPk(orderId, {
       include: [
@@ -46,7 +46,7 @@ router.get('/', async (req, res, next) => {
       'this is cartdetails.products.details',
       cartDetails[0].dataValues.products[0].dataValues.details
     ) */
-   // console.log(cartInfo)
+    console.log(cartInfo)
     res.json(cartInfo)
   } catch (err) {
     next(err)
@@ -60,7 +60,7 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    //console.log('*******post', req.user)
+    console.log('*******post', req.user)
     //console.log('post, body', req.body)
 
     let orderInfo = await Orders.findOrCreate({
@@ -74,9 +74,10 @@ router.post('/', async (req, res, next) => {
       }
     })
 
+    let didCreate = orderInfo[1]
+    console.log('didCreate', didCreate)
     //console.log('=+++++++++++', orderInfo)
     let newOrderId = orderInfo[0].dataValues.id
-
 
     //console.log('this is orderInfo', newOrderId)
     let newDetail = await Details.create({
@@ -105,6 +106,13 @@ router.put('/:productId', async (req, res, next) => {
 
     if (!existingProduct) {
       res.status(404).json('Product Not Found in Cart')
+    } else if (req.body.qty === 0) {
+      await Details.destroy({
+        where: {
+          productId: req.params.productId
+        }
+      })
+      res.status(204).send(/*Deleted*/)
     } else {
       await Details.update(
         {purchaseQuantity: req.body.qty},
