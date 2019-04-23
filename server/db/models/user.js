@@ -5,8 +5,8 @@ const db = require('../db')
 const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
-    unique: true
-    // allowNull: false
+    unique: true,
+    allowNull: false
   },
   password: {
     type: Sequelize.STRING,
@@ -39,18 +39,6 @@ const User = db.define('user', {
   shippingAddress: {
     type: Sequelize.STRING
   },
-  ccNumber: {
-    type: Sequelize.STRING.BINARY
-    /*  get() {
-      return () => this.getDataValue('ccNumber')
-    } */
-  },
-  expDate: {
-    type: Sequelize.DATE
-  },
-  ccvCode: {
-    type: Sequelize.INTEGER
-  },
   billingAddress: {
     type: Sequelize.STRING
   }
@@ -82,13 +70,6 @@ User.encryptPassword = function(plainText, salt) {
     .update(salt)
     .digest('hex')
 }
-/* User.encryptCC = function(number, salt) {
-  return crypto
-    .createHash('RSA-SHA256')
-    .update(number)
-    .update(salt)
-    .digest('hex')
-} */
 
 /**
  * hooks
@@ -99,21 +80,9 @@ const setSaltAndPassword = user => {
     user.password = User.encryptPassword(user.password(), user.salt())
   }
 }
-/* const setSaltAndCC = user => {
-  if (user.changed('ccNumber')) {
-    user.salt = User.generateSalt()
-    user.ccNumber = User.encryptCC(user.ccNumber(), user.salt())
-  }
-} */
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate(users => {
   users.forEach(setSaltAndPassword)
 })
-
-/* User.beforeCreate(setSaltAndCC)
-User.beforeUpdate(setSaltAndCC)
-User.beforeBulkCreate(users => {
-  users.forEach(setSaltAndCC)
-}) */

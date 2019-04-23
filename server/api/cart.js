@@ -7,13 +7,22 @@ const Op = Sequelize.Op
 // Where: find by UserId or OrderId to come in findAll below.
 
 router.get('/', async (req, res, next) => {
-  console.log('this is req.user.id', req.user.id)
+
   try {
-    const orderInfo = await Orders.findOne({
-      where: {
-        userId: req.user.id
-      }
-    })
+    let orderInfo
+    if (req.user === undefined) {
+      orderInfo = await Orders.findOne({
+        where: {
+          sessionId: req.session.id
+        }
+      })
+    } else {
+      orderInfo = await Orders.findOne({
+        where: {
+          userId: req.user.id
+        }
+      })
+    }
     const orderId = orderInfo.id
     // const orderId = orderInfo
     console.log('get route:  orderId', orderId)
@@ -60,34 +69,50 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    console.log('*******post', req.user)
-    //console.log('post, body', req.body)
 
-    let orderInfo = await Orders.findOrCreate({
-      where: {
-        userId: req.user.id,
-        orderStatusId: 1
-      },
-      defaults: {
-        userId: req.user.id,
-        orderStatusId: 1
-      }
-    })
 
-    let didCreate = orderInfo[1]
-    console.log('didCreate', didCreate)
-    //console.log('=+++++++++++', orderInfo)
-    let newOrderId = orderInfo[0].dataValues.id
+    let sessionVal = req.session.id
 
-    //console.log('this is orderInfo', newOrderId)
-    let newDetail = await Details.create({
-      productId: req.body.productId,
-      purchaseQuantity: req.body.qty,
-      purchasePrice: req.body.price,
-      orderId: newOrderId
-    })
+    if (req.user === undefined) {
+      let newOrder = await Orders.create({
+        orderStatusId: 1,
+        sessionId: sessionVal
+      })
+      let id = newOrder.id
 
-    res.send(newDetail) //what to send
+
+      let newDetail = await Details.create({
+        productId: req.body.productId,
+        purchaseQuantity: req.body.qty,
+        purchasePrice: req.body.price,
+        orderId: id
+      })
+
+
+    } else {
+      let orderInfo = await Orders.findOrCreate({
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        },
+        defaults: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }
+      })
+
+      let newOrderId = orderInfo[0].dataValues.id
+
+      let newDetail = await Details.create({
+        productId: req.body.productId,
+        purchaseQuantity: req.body.qty,
+        purchasePrice: req.body.price,
+        orderId: newOrderId
+      })
+
+
+      res.send(newDetail) //what to send
+    }
   } catch (err) {
     next(err)
   }
@@ -99,8 +124,7 @@ router.put('/:productId', async (req, res, next) => {
   try {
     const existingProduct = await Details.findAll({
       where: {
-        productId: req.params.productId
-        //orderId: req.session.cookie.orderId,
+        productId: req.params.productId,
       }
     })
 
@@ -112,7 +136,7 @@ router.put('/:productId', async (req, res, next) => {
           productId: req.params.productId
         }
       })
-      res.status(204).send(/*Deleted*/)
+      res.sendStatus(204)
     } else {
       await Details.update(
         {purchaseQuantity: req.body.qty},
@@ -124,7 +148,7 @@ router.put('/:productId', async (req, res, next) => {
           returning: true
         }
       )
-      res.status(204).send(/*Updated*/)
+       res.sendStatus(204)
     }
   } catch (err) {
     next(err)
@@ -142,7 +166,7 @@ router.delete('/:productId', async (req, res, next) => {
         productId: req.params.productId
       }
     })
-    res.status(204).send(/*Deleted*/)
+     res.sendStatus(204)
   } catch (err) {
     next(err)
   }

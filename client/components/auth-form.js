@@ -38,11 +38,6 @@ const AuthForm = props => {
               <small> Phone Number</small>
             </label>
             <input name="PhoneNumber" type="number" />
-
-            <label htmlFor="creditCard">
-              <small> Credit Card</small>
-            </label>
-            <input name="ccNumber" type="number" />
           </div>
         )}
 
@@ -105,7 +100,6 @@ const mapDispatch = dispatch => {
       const PhoneNumber = evt.target.PhoneNumber
         ? evt.target.PhoneNumber.value
         : null
-      const ccNumber = evt.target.ccNumber ? evt.target.ccNumber.value : null
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(
@@ -115,7 +109,6 @@ const mapDispatch = dispatch => {
           shippingAddress,
           billingAddress,
           PhoneNumber,
-          ccNumber,
           email,
           password,
           formName

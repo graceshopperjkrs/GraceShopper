@@ -6,7 +6,7 @@ const OrderStatuses = db.define('orderStatuses', {
     type: Sequelize.STRING
   },
   description: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   }
 })
 
