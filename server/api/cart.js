@@ -60,8 +60,8 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    console.log('*******post', req.user)
-    console.log('post, body', req.body)
+    //console.log('*******post', req.user)
+    //console.log('post, body', req.body)
 
     let orderInfo = await Orders.findOrCreate({
       where: {
@@ -74,11 +74,11 @@ router.post('/', async (req, res, next) => {
       }
     })
 
-    console.log('=+++++++++++', orderInfo)
+    //console.log('=+++++++++++', orderInfo)
     let newOrderId = orderInfo[0].dataValues.id
 
 
-    console.log('this is orderInfo', newOrderId)
+    //console.log('this is orderInfo', newOrderId)
     let newDetail = await Details.create({
       productId: req.body.productId,
       purchaseQuantity: req.body.qty,

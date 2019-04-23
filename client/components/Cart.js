@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { SingleProduct } from './SingleProduct'
+import  SingleProduct  from './SingleProduct'
+
 import CartSubtotal from './CartSubtotal'
 import {
   editingItemsInCart,
@@ -16,8 +17,9 @@ import { getSelected } from '../store/product'
 class disconnectedCart extends Component {
   constructor (props) {
     super(props)
-    this.state = { changeQty: props.origCartQty || 0 }
-    this.handleEditCartChange = this.handleEditCartChange.bind(this)
+    this.state = { changeQty: false }
+   // this.handleEditCartChange = this.handleEditCartChange.bind(this)
+   this.singleProductChanged = this.singleProductChanged.bind(this)
   }
 
   componentDidMount () {
@@ -27,19 +29,28 @@ class disconnectedCart extends Component {
 
     // console.log(this.state.loading)
   }
-
-  handleEditCartChange (evt, id) {
-    console.log('changing products', evt.target, id )
-    const prodObj = { id: Number(id), qty: Number(evt.target.value) }
-
-    this.setState({ changeQty: evt.target.value })
-    //console.log('***********State', this.state)
-    this.props.editingItemsInCart(prodObj)
+   
+  singleProductChanged() {
+    this.setState({changeQty: true})
     this.props.fetchItems()
   }
 
+  // componentDidUpdate(){
+  //   this.props.fetchItems()
+  // }
+
+  // handleEditCartChange (evt, id) {
+  //   console.log('changing products', evt.target, id )
+  //   const prodObj = { id: Number(id), qty: Number(evt.target.value) }
+
+  //   this.setState({ changeQty: evt.target.value })
+
+  //   this.props.editingItemsInCart(prodObj)
+  //   this.props.fetchItems()
+  // }
+
   render () {
-    if (this.props.cartList) {console.log(this.props.cartList[0]) }
+   // if (this.props.cartList) {console.log(this.props.cartList[0]) }
     if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
       <div className='RowContainer'>
@@ -48,11 +59,12 @@ class disconnectedCart extends Component {
             {this.props.cartList.map(product => (
               <li key={product.productId}>
                 <SingleProduct
-                  product={{...product, qty: this.state.changeQty }}
+                  product={product}
                   path='Cart'
-                  handleEditCartChange={this.handleEditCartChange}
-                  handleEditCartSubmit={this.handleEditCartSubmit}
-                  deleteItem={this.props.deleteItem}
+                  singleProductChanged = {this.singleProductChanged}
+                  // handleEditCartChange={this.handleEditCartChange}
+                  // handleEditCartSubmit={this.handleEditCartSubmit}
+                 // deleteItem={this.props.deleteItem}
                 />
               </li>
             ))}
@@ -72,13 +84,13 @@ const mapState = state => {
     cartList: state.AddItems.cart,
     user: state.user,
     selected: state.SelectedProduct,
-    origCartQty: state.AddItems.cart.reduce( (accum,el)=> {
-      if (el.productId===state.SelectedProduct.id) {
-        return el.qty
-      } else {
-        return accum
-      }
-    },0) || 0
+    // origCartQty: state.AddItems.cart.reduce( (accum,el)=> {
+    //   if (el.productId===state.SelectedProduct.id) {
+    //     return el.qty
+    //   } else {
+    //     return accum
+    //   }
+    // },0) || 0
   }
 }
 

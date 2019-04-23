@@ -14,7 +14,7 @@ class disconnectedCartSubtotal extends React.Component {
   }
 
   render() {
-    console.log('cart subtotal', this.props)
+   // console.log('cart subtotal', this.props)
     // console.log('cartsub', this.props)
     return (
       <div id="CartSubtotalBox">

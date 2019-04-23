@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {SingleProduct} from './SingleProduct'
+import SingleProduct from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
 import {gettingAllProducts} from '../store/product'
 
