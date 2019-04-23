@@ -8,12 +8,22 @@ const Op = Sequelize.Op
 
 router.get('/', async (req, res, next) => {
   // console.log('this is req.user.id', req.user.id)
+  console.log('this is session id from /get in cart', req.session.id)
   try {
-    const orderInfo = await Orders.findOne({
-      where: {
-        userId: req.user.id
-      }
-    })
+    let orderInfo
+    if (req.user === undefined) {
+      orderInfo = await Orders.findOne({
+        where: {
+          sessionId: req.session.id
+        }
+      })
+    } else {
+      orderInfo = await Orders.findOne({
+        where: {
+          userId: req.user.id
+        }
+      })
+    }
     const orderId = orderInfo.id
     // const orderId = orderInfo
     // console.log(orderId)
@@ -60,33 +70,54 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    console.log('*******post', req.user)
-    console.log('post, body', req.body)
+    /*  console.log('*******post', req.user)
+    console.log('post, body', req.body) */
+    let sessionVal = req.session.id
+    // console.log('this is req.session.id', sessionVal)
+    if (req.user === undefined) {
+      let newOrder = await Orders.create({
+        orderStatusId: 1,
+        sessionId: sessionVal
+      })
+      let id = newOrder.id
+      console.log('this is id', id)
 
-    let orderInfo = await Orders.findOrCreate({
-      where: {
-        userId: req.user.id,
-        orderStatusId: 1
-      },
-      defaults: {
-        userId: req.user.id,
-        orderStatusId: 1
-      }
-    })
+      let newDetail = await Details.create({
+        productId: req.body.productId,
+        purchaseQuantity: req.body.qty,
+        purchasePrice: req.body.price,
+        orderId: id
+      })
 
-    console.log('=+++++++++++', orderInfo)
-    let newOrderId = orderInfo[0].dataValues.id
+      //req.session.create() = newDetail
+      /*   let sessionValue = req.session.save(newDetail)
+      console.log('this is sessionValue', sessionValue) */
+      // console.log('this is the console log from adding cart', req.session)
+    } else {
+      let orderInfo = await Orders.findOrCreate({
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        },
+        defaults: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }
+      })
 
+      //  console.log('=+++++++++++', orderInfo)
+      let newOrderId = orderInfo[0].dataValues.id
 
-    console.log('this is orderInfo', newOrderId)
-    let newDetail = await Details.create({
-      productId: req.body.productId,
-      purchaseQuantity: req.body.qty,
-      purchasePrice: req.body.price,
-      orderId: newOrderId
-    })
+      //  console.log('this is orderInfo', newOrderId)
+      let newDetail = await Details.create({
+        productId: req.body.productId,
+        purchaseQuantity: req.body.qty,
+        purchasePrice: req.body.price,
+        orderId: newOrderId
+      })
 
-    res.send(newDetail) //what to send
+      res.send(newDetail) //what to send
+    }
   } catch (err) {
     next(err)
   }

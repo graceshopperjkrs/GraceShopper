@@ -56,10 +56,18 @@ const createApp = () => {
     session({
       secret: process.env.SESSION_SECRET || 'my best friend is Cody',
       store: sessionStore,
+      //  cookie: {maxAge: 180 * 60 * 1000},
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: true
     })
   )
+  // place right after the session setup middleware // adding to chekc for session value:counter 0
+  app.use((req, res, next) => {
+    // session.save
+    console.log('SESSION from index page: ', req.session)
+    next()
+  })
+
   app.use(passport.initialize())
   app.use(passport.session())
 
