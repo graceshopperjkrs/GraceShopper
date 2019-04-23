@@ -1,7 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+
 import {PaymentForm} from '../components'
+
 import {gettingCartDetails} from '../store/cart'
 /**
  * COMPONENT
@@ -11,7 +13,9 @@ class disconnectedCartSubtotal extends React.Component {
 
   // }
   componentDidMount() {
-    this.props.fetchItems()
+
+    this.props.getCart()
+
   }
 
   render() {
@@ -26,7 +30,12 @@ class disconnectedCartSubtotal extends React.Component {
           {this.props.totalItems}{' '}
           {this.props.totalItems === 1 ? 'item' : 'items'}{' '}
         </h3>
-        <h3> Subtotal: ${this.props.totalPrice} </h3>
+
+        <h3>
+          {' '}
+          Subtotal: ${Math.round(this.props.totalPrice * 100.0) / 100.0}{' '}
+        </h3>
+
 
         {this.props.path === 'Cart' ? (
           <div>
@@ -59,7 +68,9 @@ const mapState = (state, ownProps) => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchItems: () => dispatch(gettingCartDetails())
+
+  getCart: () => dispatch(gettingCartDetails())
+
 })
 
 export default connect(mapState, mapDispatch)(disconnectedCartSubtotal)

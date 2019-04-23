@@ -38,19 +38,13 @@ export const getCart = item => ({
   item
 })
 
-// CALCULATE TOTAL PRICE
-function totalCalculation(cart) {
-  let sum = cart.reduce((accm, item) => {
-    return accm + Number(item.qty) * Number(item.price)
-  }, 0)
-
-  return sum
-}
 //THUNKS
 
 export const gettingCartDetails = () => async dispatch => {
   try {
+    console.log('getting cart details')
     const res = await axios.get('/api/cart')
+
     dispatch(getCart(res.data))
   } catch (err) {
     console.error(err)
@@ -58,13 +52,9 @@ export const gettingCartDetails = () => async dispatch => {
 }
 export const addingItemstoCart = item => async dispatch => {
   try {
-    console.log('adding items to cart', item)
 
-    const {data} = await axios.post('/api/cart', item)
+    await axios.post('/api/cart', item)
 
-    // let newItem = res.data
-    // newItem['imageUrl'] = item.imageUrl
-    // newItem['name'] = item.name
     dispatch(addItemstoCart(item))
   } catch (err) {
     console.error(err)
@@ -73,6 +63,7 @@ export const addingItemstoCart = item => async dispatch => {
 
 export const removingItemsFromCart = id => async dispatch => {
   try {
+
     await axios.delete(`/api/cart/${id}`)
 
     dispatch(removeItemsfromCart(id))
@@ -83,7 +74,7 @@ export const removingItemsFromCart = id => async dispatch => {
 
 export const editingItemsInCart = item => async dispatch => {
   try {
-    console.log('editing item thunk ', item)
+    //   console.log('editing item thunk ', item)
     await axios.put(`/api/cart/${item.id}`, item)
     dispatch(editQtyfromCart(item))
   } catch (err) {
@@ -94,6 +85,7 @@ export const editingItemsInCart = item => async dispatch => {
 //REDUCER
 export function AddItems(state = initialState, action) {
   switch (action.type) {
+    // do we need this initial cart?
     case INITIAL_CART:
       return {
         ...state,
@@ -113,18 +105,13 @@ export function AddItems(state = initialState, action) {
       }
 
     case EDIT_QTY_FROM_CART:
-      // let cartItem = state.cart.filter(el => el.id === action.id)[0]
-
-      // cartItem = {...cartItem, qty: action.item.purchaseQuantity}
-      // console.log('------------start length of cart', state.cart.length)
-      // let restOfCart = state.cart.filter(el => el.productId !== action.id)
-      // console.log('rest of cart length',restOfCart.length)
-      // console.log('rest of cart', restOfCart)
 
       // eslint-disable-next-line no-case-declarations
       const newCart = state.cart.map(el => {
-        if (el.productId === action.id) {
-          el.qty = action.qty
+        if (el.productId === action.item.id) {
+          console.log('editing product in map')
+          el.qty = action.item.qty
+
         }
         return el
       })

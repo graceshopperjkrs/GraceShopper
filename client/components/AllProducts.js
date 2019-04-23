@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {SingleProduct} from './SingleProduct'
+import SingleProduct from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
 import {gettingAllProducts, gettingCartDetails} from '../store/product'
 
@@ -28,7 +28,7 @@ export class AllProducts extends Component {
           <ul>
             {allProducts.map(product => (
               <li key={product.id}>
-                <SingleProduct product={product} path="AllProducts" />
+                <SingleProduct product={{...product, productId: product.id } }path="AllProducts" />
               </li>
             ))}
           </ul>
@@ -44,7 +44,8 @@ export class AllProducts extends Component {
  */
 const mapState = state => {
   return {
-    AllProducts: state.AllProducts
+    AllProducts: state.AllProducts,
+    cartList: state.AddItems.cart
   }
 }
 

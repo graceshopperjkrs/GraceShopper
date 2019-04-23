@@ -39,7 +39,6 @@ export const auth = (
   shippingAddress,
   billingAddress,
   PhoneNumber,
-  ccNumber,
   email,
   password,
   method
@@ -52,7 +51,6 @@ export const auth = (
       shippingAddress,
       billingAddress,
       PhoneNumber,
-      ccNumber,
       email,
       password
     })
