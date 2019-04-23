@@ -1,19 +1,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { DH_UNABLE_TO_CHECK_GENERATOR } from 'constants';
 
 /**
  * COMPONENT
  */
 
 export const SingleProduct = props => {
-  const {name, imageUrl, id, description, price} = props.product
-  const qty = props.path === 'Cart' ? props.product.purchaseQuantity : props.qty
+  const {name, imageUrl, id, description, price,qty} = props.product
+  //const qty = props.path === 'Cart' ? props.product.purchaseQuantity : props.qty
   // const price =
   // props.path === 'Cart' ? props.product.purchasePrice : props.product.price
+  console.log('single product qty:', qty)
   console.log(props.path, 'productId', props.product.productId)
   console.log(props.path, 'id', props.product.id)
-  const productId =
-    props.path === 'Cart' ? props.product.productId : props.product.id
+  const productId = props.path === 'Cart' ? props.product.productId : props.product.id
 
   return (
     <div className="SingleProductBox">
@@ -21,7 +22,7 @@ export const SingleProduct = props => {
         <h1>{name}</h1>
         <img className="beanImage" src={imageUrl} />
       </Link>
-      <h3>Price: ${price}</h3>
+      <h3>Price: ${price/100.}</h3>
 
       {props.path === 'Cart' ? '' : <p>Description: {description} </p>}
 
@@ -36,7 +37,8 @@ export const SingleProduct = props => {
             step="5"
             onChange={
               props.path === 'Cart'
-                ? evt => props.handleEditCartChange(evt, productId)
+                 //() => console.log('changing products')
+                ?  evt => props.handleEditCartChange(evt, productId)
                 : props.handleAddProductChange
             }
           />

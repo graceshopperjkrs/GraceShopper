@@ -1,25 +1,26 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {SingleProduct} from './SingleProduct'
+import { connect } from 'react-redux'
+import { SingleProduct } from './SingleProduct'
 import CartSubtotal from './CartSubtotal'
 import {
   editingItemsInCart,
   removingItemsFromCart,
   gettingCartDetails
 } from '../store/cart'
-import {getSelected} from '../store/product'
+import { getSelected } from '../store/product'
 /**
  * COMPONENT
  */
 
 class disconnectedCart extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
+    this.state = { changeQty: 0 }
     this.handleEditCartChange = this.handleEditCartChange.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     // this.setState({loading: false})
     this.props.fetchItems()
     console.log(this.props.cartList, 'Cart List from cart.js ')
@@ -27,23 +28,27 @@ class disconnectedCart extends Component {
     // console.log(this.state.loading)
   }
 
-  handleEditCartChange(evt, id) {
-    const prodObj = {id: Number(id), purchaseQuantity: Number(evt.target.value)}
+  handleEditCartChange (evt, id) {
+    console.log('changing products', evt.target, id )
+    const prodObj = { id: Number(id), qty: Number(evt.target.value) }
 
+    this.setState({ changeQty: this.state.changeQty + evt.target.value })
+    console.log('***********State', this.state)
     this.props.editingItemsInCart(prodObj)
+    this.props.fetchItems()
   }
 
-  render() {
+  render () {
     if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
-      <div className="RowContainer">
-        <div className="ColumnContainer">
+      <div className='RowContainer'>
+        <div className='ColumnContainer'>
           <ul>
             {this.props.cartList.map(product => (
               <li key={product.productId}>
                 <SingleProduct
                   product={product}
-                  path="Cart"
+                  path='Cart'
                   handleEditCartChange={this.handleEditCartChange}
                   handleEditCartSubmit={this.handleEditCartSubmit}
                   deleteItem={this.props.deleteItem}
@@ -52,7 +57,7 @@ class disconnectedCart extends Component {
             ))}
           </ul>
         </div>
-        <CartSubtotal path="Cart" />
+        <CartSubtotal path='Cart' />
       </div>
     )
   }
@@ -78,7 +83,10 @@ const mapDispatch = dispatch => ({
   }
 })
 
-export default connect(mapState, mapDispatch)(disconnectedCart)
+export default connect(
+  mapState,
+  mapDispatch
+)(disconnectedCart)
 
 /**
  * PROP TYPES

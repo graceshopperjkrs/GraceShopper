@@ -5,28 +5,7 @@ const Op = Sequelize.Op
 
 //get cart
 // Where: find by UserId or OrderId to come in findAll below.
-/* router.get('/', async (req, res, next) => {
-  // console.log('this is req.user.id', req.user.id)
-  try {
-    const orderInfo = await Orders.findOne({
-      where: {
-        userId: req.user.id
-      }
-    })
-    const orderId = orderInfo.id
-    // const orderId = orderInfo
-    // console.log(orderId)
-    const cartDetails = await Details.findAll({
-      where: {
-        orderId: orderId
-      }
-    })
-    // console.log(cartDetails)
-    res.json(cartDetails)
-  } catch (err) {
-    next(err)
-  }
-}) */
+
 router.get('/', async (req, res, next) => {
   // console.log('this is req.user.id', req.user.id)
   try {
@@ -81,28 +60,8 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    /*  let newOrder = await Orders.create({
-      userId: req.user.id,
-      orderStatusId: 1
-    }) */
-    /*  let orderId
-    let findOrder = await Orders.findAll({
-      where: {
-        userId: req.user.id
-      }
-    })
-    let newOrderId = findOrder.id
-
-    if (!newOrderId) {
-      orderId = await Orders.create({
-        where: {
-          userId: req.user.id,
-          orderStatusId: 1
-        }
-      })
-    }
-    newOrderId = orderId.id
-    console.log('this is findOrder.id', newOrderId) */
+    console.log('*******post', req.user)
+    console.log('post, body', req.body)
 
     let orderInfo = await Orders.findOrCreate({
       where: {
@@ -115,12 +74,15 @@ router.post('/', async (req, res, next) => {
       }
     })
 
+    console.log('=+++++++++++', orderInfo)
     let newOrderId = orderInfo[0].dataValues.id
+
+
     console.log('this is orderInfo', newOrderId)
     let newDetail = await Details.create({
       productId: req.body.productId,
-      purchaseQuantity: req.body.purchaseQuantity,
-      purchasePrice: req.body.purchasePrice,
+      purchaseQuantity: req.body.qty,
+      purchasePrice: req.body.price,
       orderId: newOrderId
     })
 
@@ -145,7 +107,7 @@ router.put('/:productId', async (req, res, next) => {
       res.status(404).json('Product Not Found in Cart')
     } else {
       await Details.update(
-        {purchaseQuantity: req.body.purchaseQuantity},
+        {purchaseQuantity: req.body.qty},
         {
           where: {
             //orderId: req.session.cookie.orderId,
