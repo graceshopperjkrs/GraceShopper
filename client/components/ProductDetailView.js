@@ -25,19 +25,21 @@ class productDetail extends Component {
       el => el.productId === this.props.selected.id
     )
 
-    if (cartItem && cartItem.length === 0) {
+    if (cartItem.length === 0) {
+
       let productObj = {
         productId: this.props.selected.id,
-        purchaseQuantity: Number(this.state.addQty),
-        purchasePrice: Number(this.props.selected.price),
+        qty: Number(this.state.addQty),
+        price: Number(this.props.selected.price),
         imageUrl: this.props.selected.imageUrl,
         name: this.props.selected.name
       }
       this.props.addingItemstoCart(productObj)
     } else {
+
       let productObj = {
         id: this.props.selected.id,
-        purchaseQuantity: Number(this.state.addQty)
+        qty: Number(this.state.addQty)
       }
       this.props.editingItemsInCart(productObj)
     }

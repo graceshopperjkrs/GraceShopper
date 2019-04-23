@@ -5,7 +5,12 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 class disconnectedCartSubtotal extends React.Component {
+  // calcSubtotal(){
+
+  // }
+
   render() {
+    console.log('cart subtotal', this.props)
     // console.log('cartsub', this.props)
     return (
       <div id="CartSubtotalBox">
@@ -16,7 +21,7 @@ class disconnectedCartSubtotal extends React.Component {
           {this.props.totalItems}{' '}
           {this.props.totalItems === 1 ? 'item' : 'items'}{' '}
         </h3>
-        <h3> Subtotal: ${this.props.totalPrice} </h3>
+        <h3> Subtotal: ${ this.props.totalPrice} </h3>
 
         {this.props.path === 'Cart' ? (
           <Link to="/charge">
@@ -36,8 +41,12 @@ class disconnectedCartSubtotal extends React.Component {
 }
 
 const mapState = (state, ownProps) => ({
-  totalItems: state.AddItems.totalItems,
-  totalPrice: state.AddItems.totalPrice,
+  
+  totalItems: state.AddItems.cart.length,
+  cart: state.AddItems.cart,
+  totalPrice: state.AddItems.cart.reduce((totalPx, el)=>{
+    return  totalPx + (el.price * el.qty)/100.0
+  },0),
   path: ownProps.path
 })
 
