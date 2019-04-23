@@ -4,7 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-//const ADD_USER = 'ADD_USER'
+// const ADD_USER = 'ADD_USER'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
@@ -16,9 +16,9 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-//const addUser = user => ({type: ADD_USER, user})
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+// const addUser = user => ({type: ADD_USER, user})
+const getUser = user => ({ type: GET_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
 
 /**
  * THUNK CREATORS
@@ -32,7 +32,7 @@ export const me = () => async dispatch => {
   }
 }
 
-//console.log('i am coming here and this is method', method)
+/// /console.log('i am coming here and this is method', method)
 export const auth = (
   firstName,
   lastName,
@@ -55,7 +55,7 @@ export const auth = (
       password
     })
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(getUser({ error: authError }))
   }
 
   try {
@@ -78,7 +78,7 @@ export const logout = () => async dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user
