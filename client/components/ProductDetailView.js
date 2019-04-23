@@ -11,7 +11,7 @@ class productDetail extends Component {
    
     this.state = {addQty: this.props.addQty || 0 }
     this.handleAddProductChange = this.handleAddProductChange.bind(this)
-    this.handleAddorModifyProductSubmit = this.handleAddorModifyProductSubmit.bind(this)
+    //this.handleAddorModifyProductSubmit = this.handleAddorModifyProductSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -21,44 +21,42 @@ class productDetail extends Component {
     this.props.getSelectedProduct(id)
     this.props.getCart()
   }
-  componentDidUpdate(){
-    this.props.getCart()
-  }
 
-  handleAddorModifyProductSubmit (evt) {
+  handleAddProductChange (evt, id) {
     evt.preventDefault()
-    console.log('handle add product submit', this.props.addQty, this.state.addQty  )
+    console.log('handle add product submit', this.props.addQty, evt.target.value )
 
     if (this.props.addQty === 0) {
-      console.log('detail page:  ad qty ', this.props , this.props.addQty , this.state.addQty)
+      console.log('detail page:  ad qty ', this.props , this.props.addQty , evt.target.value)
       let productObj = {
-        productId: this.props.selected.id,
-        qty: Number(this.props.addQty),
+        productId: id ,//this.props.selected.id,
+        qty: Number(evt.target.value),
         price: Number(this.props.selected.price),
         imageUrl: this.props.selected.imageUrl,
         name: this.props.selected.name
       }
       this.props.addingItemstoCart(productObj)
     } else {
-     // console.log('detail page: dit qty', this.props)
+      console.log('detail page: dit qty', this.props)
       let productObj = {
         id: this.props.selected.id,
-        qty: Number(this.state.addQty)
+        qty: Number(evt.target.value)
       }
       this.props.editingItemsInCart(productObj)
     }
+    this.props.getCart()
   }
 
-  handleAddProductChange (evt) {
-    console.log('changing amount: ', this.state.addQty)
-    console.log('... to', evt.target.value)
-    // react batches the setState SO THIS DOESN"T HAPPEN RIGHT NOW
-    this.setState({addQty: evt.target.value})
-    // react batches the setState 
-    console.log('addQty is now', this.state.addQty)
-    // so this isn't updated here and the re-render doesn't put the new state in.
+  // handleAddProductChange (evt) {
+  //   console.log('changing amount: ', this.state.addQty)
+  //   console.log('... to', evt.target.value)
+  //   // react batches the setState SO THIS DOESN"T HAPPEN RIGHT NOW
+  //   this.setState({addQty: evt.target.value})
+  //   // react batches the setState 
+  //   console.log('addQty is now', this.state.addQty)
+  //   // so this isn't updated here and the re-render doesn't put the new state in.
     
-  }
+  // }
 
   render () {
      console.log(this.props)
@@ -73,12 +71,12 @@ class productDetail extends Component {
             <li>
               <SingleProduct
                 product={{...this.props.selected, 
-                  qty: this.state.addQty, 
+                  qty: this.props.addQty, 
                   productId: this.props.selected.id}}
              
                 path='ProductDetailView'
                 handleAddProductChange={this.handleAddProductChange}
-                handleAddProductSubmit={this.handleAddorModifyProductSubmit}
+                //handleAddProductSubmit={this.handleAddorModifyProductSubmit}
               />
             </li>
           </ul>
@@ -96,7 +94,7 @@ const mapState = state => {
   console.log('detail seleected prod', state.SelectedProduct)
   console.log(state.AddItems.cart.filter( item => {
   return (item.productId ===state.SelectedProduct.id)}))
-  
+
   const qtyInCart = state.AddItems.cart.reduce( (currentValue, item) => {
     if (item.productId === state.SelectedProduct.id) {
       return   currentValue + item.qty

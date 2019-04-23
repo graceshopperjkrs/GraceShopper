@@ -8,7 +8,7 @@ import { DH_UNABLE_TO_CHECK_GENERATOR } from 'constants';
 
 export const SingleProduct = props => {
   const {name, imageUrl, productId, description, price, qty} = props.product
-
+  console.log('Single product shows qty', qty)
 
   return (
     <div className="SingleProductBox">
@@ -33,7 +33,7 @@ export const SingleProduct = props => {
               props.path === 'Cart'
                  //() => console.log('changing products')
                 ?  evt => props.handleEditCartChange(evt, productId)
-                : evt => props.handleAddProductChange(evt)
+                : evt => props.handleAddProductChange(evt, productId)
             }
           />
         </div>
@@ -41,7 +41,7 @@ export const SingleProduct = props => {
         ''
       )}
 
-      {props.path === 'ProductDetailView' ? (
+      {props.path === 'ProductDetailViewNOTHING' ? (
         <div>
           <button
             type="submit"
