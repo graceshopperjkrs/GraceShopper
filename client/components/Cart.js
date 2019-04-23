@@ -23,7 +23,7 @@ class disconnectedCart extends Component {
   componentDidMount () {
     // this.setState({loading: false})
     this.props.fetchItems()
-    console.log(this.props.cartList, 'Cart List from cart.js ')
+    //console.log(this.props.cartList, 'Cart List from cart.js ')
 
     // console.log(this.state.loading)
   }

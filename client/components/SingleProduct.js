@@ -8,15 +8,7 @@ import { DH_UNABLE_TO_CHECK_GENERATOR } from 'constants';
 
 export const SingleProduct = props => {
   const {name, imageUrl, productId, description, price, qty} = props.product
-  //const qty = props.path === 'Cart' ? props.product.purchaseQuantity : props.qty
-  // const price =
-  // props.path === 'Cart' ? props.product.purchasePrice : props.product.price
-  // console.log('single product qty:', qty, props.path)
-  // console.log('single  qty:', props.qty, props.path)
-  // console.log(props.path, 'productId', props.product.productId)
-  // console.log(props.path, 'id', props.product.id)
-  //const qty = props.path === 'Cart' ? props.product.qty: props.qty;
-  //const productId = props.path === 'Cart' ? props.product.productId : props.product.id
+
 
   return (
     <div className="SingleProductBox">

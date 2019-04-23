@@ -96,6 +96,7 @@ export const editingItemsInCart = item => async dispatch => {
 //REDUCER
 export function AddItems(state = initialState, action) {
   switch (action.type) {
+    // do we need this initial cart?
     case INITIAL_CART:
       return {
         ...state,
@@ -121,13 +122,7 @@ export function AddItems(state = initialState, action) {
       }
 
     case EDIT_QTY_FROM_CART:
-      // let cartItem = state.cart.filter(el => el.id === action.id)[0]
 
-      // cartItem = {...cartItem, qty: action.item.purchaseQuantity}
-      // console.log('------------start length of cart', state.cart.length)
-      // let restOfCart = state.cart.filter(el => el.productId !== action.id)
-      // console.log('rest of cart length',restOfCart.length)
-      // console.log('rest of cart', restOfCart)
       
       // eslint-disable-next-line no-case-declarations
       const newCart = state.cart.map(  el => {

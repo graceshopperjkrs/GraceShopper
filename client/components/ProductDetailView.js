@@ -21,13 +21,9 @@ class productDetail extends Component {
   handleAddProductSubmit (evt) {
     evt.preventDefault()
 
-    // let cartItem = this.props.cart.filter(
-    //   el => el.productId === this.props.selected.id
-    // )
-    //console.log('addqty', this.props.addQty, evt.target.value )
 
     if (this.props.addQty === 0) {
-      console.log('detail page:  ad qty ', this.props , this.props.addQty , this.state.addQty)
+     // console.log('detail page:  ad qty ', this.props , this.props.addQty , this.state.addQty)
       let productObj = {
         productId: this.props.selected.id,
         qty: Number(this.state.addQty),
@@ -37,7 +33,7 @@ class productDetail extends Component {
       }
       this.props.addingItemstoCart(productObj)
     } else {
-      console.log('detail page: dit qty', this.props)
+     // console.log('detail page: dit qty', this.props)
       let productObj = {
         id: this.props.selected.id,
         qty: Number(this.state.addQty)
@@ -82,16 +78,9 @@ class productDetail extends Component {
 }
 
 const mapState = state => {
-  // console.log('detail mapstate', state.AddItems.cart.reduce(function (currentValue, item) {
-  //   if (item.productId === state.SelectedProduct.id) {
-  //     return currentValue + item.qty
-  //   } else {
-  //     return currentValue
-  //   }
-  // }, 0) || 0)
+
   return {
     selected: state.SelectedProduct,
-    // cart: ( state.AddItems.cart.filter(el=> el.productId === state.SelectedProduct.id) || 0 )
     addQty: state.AddItems.cart.reduce(function (currentValue, item) {
       if (item.productId === state.SelectedProduct.id) {
         return currentValue + item.qty
