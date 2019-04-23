@@ -1,56 +1,34 @@
 import React, {Component} from 'react'
-import {SingleProduct} from './SingleProduct'
+import SingleProduct from './SingleProduct'
 import {connect} from 'react-redux'
 import {getSelected} from '../store/product'
 import CartSubtotal from './CartSubtotal'
-import {addingItemstoCart, editingItemsInCart} from '../store/cart'
+import {gettingCartDetails} from '../store/cart'
 
 class productDetail extends Component {
   constructor(props) {
     super(props)
-    this.state = {addQty: 0}
-    this.handleAddProductChange = this.handleAddProductChange.bind(this)
-    this.handleAddProductSubmit = this.handleAddProductSubmit.bind(this)
+
+    this.state = {changeQty: false}
+    this.singleProductChanged = this.singleProductChanged.bind(this)
+    //this.handleAddProductChange = this.handleAddProductChange.bind(this)
+    //this.handleAddorModifyProductSubmit = this.handleAddorModifyProductSubmit.bind(this)
   }
 
   componentDidMount() {
+    // console.log('product details has mounted, [props.addQty', this.props.addQty)
+    //console.log('product details state.addQty', this.state.addQty)
     const id = this.props.match.params.productId
     this.props.getSelectedProduct(id)
+    // this.props.getCart()
   }
 
-  handleAddProductSubmit(evt) {
-    evt.preventDefault()
-
-    let cartItem = this.props.cart.filter(
-      el => el.productId === this.props.selected.id
-    )
-
-    if (cartItem.length === 0) {
-
-      let productObj = {
-        productId: this.props.selected.id,
-        qty: Number(this.state.addQty),
-        price: Number(this.props.selected.price),
-        imageUrl: this.props.selected.imageUrl,
-        name: this.props.selected.name
-      }
-      this.props.addingItemstoCart(productObj)
-    } else {
-
-      let productObj = {
-        id: this.props.selected.id,
-        qty: Number(this.state.addQty)
-      }
-      this.props.editingItemsInCart(productObj)
-    }
-  }
-
-  handleAddProductChange(evt) {
-    this.setState({addQty: evt.target.value})
+  singleProductChanged() {
+    this.setState({changeQty: !this.state.changeQty})
+    this.props.getCart()
   }
 
   render() {
-    // console.log(this.props)
     if (!this.props.selected) {
       return 'Loading'
     }
@@ -61,17 +39,18 @@ class productDetail extends Component {
           <ul>
             <li>
               <SingleProduct
-                product={this.props.selected}
-                qty={this.state.addQty}
+                product={{
+                  ...this.props.selected,
+                  productId: this.props.selected.id
+                }}
                 path="ProductDetailView"
-                handleAddProductChange={this.handleAddProductChange}
-                handleAddProductSubmit={this.handleAddProductSubmit}
+                singleProductChanged={this.singleProductChanged}
               />
             </li>
           </ul>
         </div>
         <div>
-          <CartSubtotal path="AllProducts" />
+          <CartSubtotal path="ProductDetailView" />
         </div>
       </div>
     )
@@ -81,7 +60,7 @@ class productDetail extends Component {
 const mapState = state => {
   return {
     selected: state.SelectedProduct,
-    cart: state.AddItems.cart
+    cartList: state.AddItems.cart
   }
 }
 
@@ -89,10 +68,7 @@ const mapDispatch = dispatch => ({
   getSelectedProduct: id => {
     dispatch(getSelected(id))
   },
-  addingItemstoCart: productObj => {
-    dispatch(addingItemstoCart(productObj))
-  },
-  editingItemsInCart: productObj => dispatch(editingItemsInCart(productObj))
+  getCart: () => dispatch(gettingCartDetails)
 })
 
 export default connect(mapState, mapDispatch)(productDetail)
