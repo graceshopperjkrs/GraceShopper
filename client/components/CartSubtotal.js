@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {gettingCartDetails} from '../store/cart'
 /**
  * COMPONENT
  */
@@ -8,6 +9,9 @@ class disconnectedCartSubtotal extends React.Component {
   // calcSubtotal(){
 
   // }
+  componentDidMount(){
+      this.props.getCart()
+  }
 
   render() {
     console.log('cart subtotal', this.props)
@@ -50,4 +54,8 @@ const mapState = (state, ownProps) => ({
   path: ownProps.path
 })
 
-export default connect(mapState, null)(disconnectedCartSubtotal)
+const mapDispatch = dispatch => ({
+  getCart: () => dispatch(gettingCartDetails())
+})
+
+export default connect(mapState, mapDispatch)(disconnectedCartSubtotal)

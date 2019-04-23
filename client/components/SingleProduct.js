@@ -33,7 +33,7 @@ export const SingleProduct = props => {
               props.path === 'Cart'
                  //() => console.log('changing products')
                 ?  evt => props.handleEditCartChange(evt, productId)
-                : props.handleAddProductChange
+                : evt => props.handleAddProductChange(evt)
             }
           />
         </div>
@@ -46,7 +46,7 @@ export const SingleProduct = props => {
           <button
             type="submit"
             disabled={props.qty === 0}
-            onClick={props.handleAddProductSubmit}
+            onClick={evt => props.handleAddProductSubmit(evt)}
           >
             Add to Cart / Modify Qty
           </button>

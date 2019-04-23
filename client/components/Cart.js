@@ -16,7 +16,7 @@ import { getSelected } from '../store/product'
 class disconnectedCart extends Component {
   constructor (props) {
     super(props)
-    this.state = { changeQty: 0 }
+    this.state = { changeQty: props.origCartQty || 0 }
     this.handleEditCartChange = this.handleEditCartChange.bind(this)
   }
 
@@ -32,8 +32,8 @@ class disconnectedCart extends Component {
     console.log('changing products', evt.target, id )
     const prodObj = { id: Number(id), qty: Number(evt.target.value) }
 
-    this.setState({ changeQty: this.state.changeQty + evt.target.value })
-    console.log('***********State', this.state)
+    this.setState({ changeQty: evt.target.value })
+    //console.log('***********State', this.state)
     this.props.editingItemsInCart(prodObj)
     this.props.fetchItems()
   }
@@ -48,7 +48,7 @@ class disconnectedCart extends Component {
             {this.props.cartList.map(product => (
               <li key={product.productId}>
                 <SingleProduct
-                  product={product}
+                  product={{...product, qty: this.state.changeQty }}
                   path='Cart'
                   handleEditCartChange={this.handleEditCartChange}
                   handleEditCartSubmit={this.handleEditCartSubmit}
@@ -71,7 +71,14 @@ const mapState = state => {
   return {
     cartList: state.AddItems.cart,
     user: state.user,
-    selected: state.SelectedProduct
+    selected: state.SelectedProduct,
+    origCartQty: state.AddItems.cart.reduce( (accum,el)=> {
+      if (el.productId===state.SelectedProduct.id) {
+        return el.qty
+      } else {
+        return accum
+      }
+    },0) || 0
   }
 }
 
