@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {CardElement, injectStripe} from 'react-stripe-elements'
+import axios from 'axios'
+import {Redirect} from 'react-router-dom'
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -8,7 +10,6 @@ class CheckoutForm extends Component {
     this.submit = this.submit.bind(this)
   }
 
-  //TODO: Move this to a thunk + update DB
   async submit() {
     let {token} = await this.props.stripe.createToken({name: 'Name'})
     let response = await fetch('/charge', {
@@ -18,13 +19,18 @@ class CheckoutForm extends Component {
     })
 
     if (response.ok) {
+      await axios.put('/api/cart/', {
+        orderId: this.props.props.cart[0].orderId
+      })
+      this.props.props.fetchItems()
       this.setState({complete: true})
     }
   }
 
   render() {
     if (this.state.complete) {
-      return <h2>Thank you for your purchase!</h2>
+      alert('Thank you for your purchase!')
+      return <Redirect to="/home" />
     }
     return (
       <div className="checkout">
@@ -36,4 +42,6 @@ class CheckoutForm extends Component {
   }
 }
 
-export default injectStripe(CheckoutForm)
+const IPayment = injectStripe(CheckoutForm)
+
+export default IPayment

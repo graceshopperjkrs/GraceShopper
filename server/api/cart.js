@@ -9,11 +9,18 @@ const Op = Sequelize.Op
 router.get('/', async (req, res, next) => {
   // console.log('this is req.user.id', req.user.id)
   try {
-    const orderInfo = await Orders.findOne({
+    let orderInfo = await Orders.findOne({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
+        orderStatusId: 1
       }
     })
+    if (!orderInfo) {
+      orderInfo = await Orders.create({
+        userId: req.user.id,
+        orderStatusId: 1
+      })
+    }
     const orderId = orderInfo.id
     // const orderId = orderInfo
     // console.log(orderId)
@@ -34,6 +41,7 @@ router.get('/', async (req, res, next) => {
     const cartInfo = cartDetails.dataValues.products.map(ele => {
       const dv = ele.dataValues
       return {
+        orderId: orderId,
         productId: dv.id,
         name: dv.name,
         imageUrl: dv.imageUrl,
@@ -58,10 +66,7 @@ router.post('/', async (req, res, next) => {
   // console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     //before we add to table , first check if order id already exists for a user.
-    //if order id exists then use that else create a new orderid.
-
-    console.log('*******post', req.user)
-    console.log('post, body', req.body)
+    //if order id exists then use that else create a new orderid
 
     let orderInfo = await Orders.findOrCreate({
       where: {
@@ -74,9 +79,7 @@ router.post('/', async (req, res, next) => {
       }
     })
 
-    console.log('=+++++++++++', orderInfo)
     let newOrderId = orderInfo[0].dataValues.id
-
 
     console.log('this is orderInfo', newOrderId)
     let newDetail = await Details.create({
@@ -117,6 +120,33 @@ router.put('/:productId', async (req, res, next) => {
         }
       )
       res.status(204).send(/*Updated*/)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    console.log('EXISTING:!!', req.body.orderId)
+    const existingOrder = await Orders.findOne({
+      where: {
+        id: req.body.orderId
+      }
+    })
+    console.log('EXISTINGOrder:!!', existingOrder)
+
+    if (existingOrder) {
+      await Orders.update(
+        {orderStatusId: 2},
+        {
+          where: {
+            id: req.body.orderId
+          },
+          returning: true
+        }
+      )
+      res.status(204).send()
     }
   } catch (err) {
     next(err)

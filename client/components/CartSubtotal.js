@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {PaymentForm} from '../components'
+import {gettingCartDetails} from '../store/cart'
 /**
  * COMPONENT
  */
@@ -8,6 +10,9 @@ class disconnectedCartSubtotal extends React.Component {
   // calcSubtotal(){
 
   // }
+  componentDidMount() {
+    this.props.fetchItems()
+  }
 
   render() {
     console.log('cart subtotal', this.props)
@@ -21,19 +26,23 @@ class disconnectedCartSubtotal extends React.Component {
           {this.props.totalItems}{' '}
           {this.props.totalItems === 1 ? 'item' : 'items'}{' '}
         </h3>
-        <h3> Subtotal: ${ this.props.totalPrice} </h3>
+        <h3> Subtotal: ${this.props.totalPrice} </h3>
 
         {this.props.path === 'Cart' ? (
-          <Link to="/charge">
-            <h1>Checkout</h1>
-          </Link>
-        ) : (
-          <Link to="/cart">
+          <div>
             <h3>
               <i className="fa fa-shopping-cart" />
-              Go to Cart
+              Checkout{' '}
             </h3>
-          </Link>
+            <PaymentForm props={this.props} />
+          </div>
+        ) : (
+          <div>
+            <Link to="/cart">
+              <i className="fa fa-shopping-cart" />
+              Checkout{' '}
+            </Link>
+          </div>
         )}
       </div>
     )
@@ -41,13 +50,16 @@ class disconnectedCartSubtotal extends React.Component {
 }
 
 const mapState = (state, ownProps) => ({
-  
   totalItems: state.AddItems.cart.length,
   cart: state.AddItems.cart,
-  totalPrice: state.AddItems.cart.reduce((totalPx, el)=>{
-    return  totalPx + (el.price * el.qty)/100.0
-  },0),
+  totalPrice: state.AddItems.cart.reduce((totalPx, el) => {
+    return totalPx + el.price * el.qty / 100.0
+  }, 0),
   path: ownProps.path
 })
 
-export default connect(mapState, null)(disconnectedCartSubtotal)
+const mapDispatch = dispatch => ({
+  fetchItems: () => dispatch(gettingCartDetails())
+})
+
+export default connect(mapState, mapDispatch)(disconnectedCartSubtotal)
