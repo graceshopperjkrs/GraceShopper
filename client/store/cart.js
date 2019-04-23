@@ -38,14 +38,14 @@ export const getCart = item => ({
   item
 })
 
-// CALCULATE TOTAL PRICE
-function totalCalculation(cart) {
-  let sum = cart.reduce((accm, item) => {
-    return (accm + Number(item.qty) * Number(item.price))
-  }, 0)
+// // CALCULATE TOTAL PRICE
+// function totalCalculation(cart) {
+//   let sum = cart.reduce((accm, item) => {
+//     return (accm + Number(item.qty) * Number(item.price))
+//   }, 0)
 
-  return sum
-}
+//   return sum
+// }
 //THUNKS
 
 export const gettingCartDetails = () => async dispatch => {
@@ -61,7 +61,7 @@ export const addingItemstoCart = item => async dispatch => {
     
     console.log('adding items to cart', item)
   
-    const {data} = await axios.post('/api/cart', item)
+    await axios.post('/api/cart', item)
   
     // let newItem = res.data
     // newItem['imageUrl'] = item.imageUrl

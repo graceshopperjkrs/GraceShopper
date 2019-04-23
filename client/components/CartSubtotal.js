@@ -21,7 +21,7 @@ class disconnectedCartSubtotal extends React.Component {
           {this.props.totalItems}{' '}
           {this.props.totalItems === 1 ? 'item' : 'items'}{' '}
         </h3>
-        <h3> Subtotal: ${ this.props.totalPrice} </h3>
+        <h3> Subtotal: ${ Math.round(this.props.totalPrice*100.0)/100.0 } </h3>
 
         {this.props.path === 'Cart' ? (
           <Link to="/charge">

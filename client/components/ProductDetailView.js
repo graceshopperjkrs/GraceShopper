@@ -1,32 +1,33 @@
-import React, {Component} from 'react'
-import {SingleProduct} from './SingleProduct'
-import {connect} from 'react-redux'
-import {getSelected} from '../store/product'
+import React, { Component } from 'react'
+import { SingleProduct } from './SingleProduct'
+import { connect } from 'react-redux'
+import { getSelected } from '../store/product'
 import CartSubtotal from './CartSubtotal'
-import {addingItemstoCart, editingItemsInCart} from '../store/cart'
+import { addingItemstoCart, editingItemsInCart } from '../store/cart'
 
 class productDetail extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this.state = {addQty: 0}
+    this.state = {addQty: props.addQty || 0 }
     this.handleAddProductChange = this.handleAddProductChange.bind(this)
     this.handleAddProductSubmit = this.handleAddProductSubmit.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const id = this.props.match.params.productId
     this.props.getSelectedProduct(id)
   }
 
-  handleAddProductSubmit(evt) {
+  handleAddProductSubmit (evt) {
     evt.preventDefault()
 
-    let cartItem = this.props.cart.filter(
-      el => el.productId === this.props.selected.id
-    )
+    // let cartItem = this.props.cart.filter(
+    //   el => el.productId === this.props.selected.id
+    // )
+    //console.log('addqty', this.props.addQty, evt.target.value )
 
-    if (cartItem.length === 0) {
-
+    if (this.props.addQty === 0) {
+      console.log('detail page:  ad qty ', this.props , this.props.addQty , this.state.addQty)
       let productObj = {
         productId: this.props.selected.id,
         qty: Number(this.state.addQty),
@@ -36,7 +37,7 @@ class productDetail extends Component {
       }
       this.props.addingItemstoCart(productObj)
     } else {
-
+      console.log('detail page: dit qty', this.props)
       let productObj = {
         id: this.props.selected.id,
         qty: Number(this.state.addQty)
@@ -45,25 +46,27 @@ class productDetail extends Component {
     }
   }
 
-  handleAddProductChange(evt) {
-    this.setState({addQty: evt.target.value})
+  handleAddProductChange (evt) {
+    this.setState({ addQty: evt.target.value })
   }
 
-  render() {
+  render () {
     // console.log(this.props)
     if (!this.props.selected) {
       return 'Loading'
     }
 
     return (
-      <div className="RowContainer">
-        <div className="ColumnContainer">
+      <div className='RowContainer'>
+        <div className='ColumnContainer'>
           <ul>
             <li>
               <SingleProduct
-                product={this.props.selected}
-                qty={this.state.addQty}
-                path="ProductDetailView"
+                product={{...this.props.selected, 
+                  qty: this.state.addQty, 
+                  productId: this.props.selected.id}}
+             
+                path='ProductDetailView'
                 handleAddProductChange={this.handleAddProductChange}
                 handleAddProductSubmit={this.handleAddProductSubmit}
               />
@@ -71,7 +74,7 @@ class productDetail extends Component {
           </ul>
         </div>
         <div>
-          <CartSubtotal path="AllProducts" />
+          <CartSubtotal path='AllProducts' />
         </div>
       </div>
     )
@@ -79,9 +82,23 @@ class productDetail extends Component {
 }
 
 const mapState = state => {
+  // console.log('detail mapstate', state.AddItems.cart.reduce(function (currentValue, item) {
+  //   if (item.productId === state.SelectedProduct.id) {
+  //     return currentValue + item.qty
+  //   } else {
+  //     return currentValue
+  //   }
+  // }, 0) || 0)
   return {
     selected: state.SelectedProduct,
-    cart: state.AddItems.cart
+    // cart: ( state.AddItems.cart.filter(el=> el.productId === state.SelectedProduct.id) || 0 )
+    addQty: state.AddItems.cart.reduce(function (currentValue, item) {
+      if (item.productId === state.SelectedProduct.id) {
+        return currentValue + item.qty
+      } else {
+        return currentValue
+      }
+    }, 0) || 0 
   }
 }
 
@@ -95,4 +112,7 @@ const mapDispatch = dispatch => ({
   editingItemsInCart: productObj => dispatch(editingItemsInCart(productObj))
 })
 
-export default connect(mapState, mapDispatch)(productDetail)
+export default connect(
+  mapState,
+  mapDispatch
+)(productDetail)

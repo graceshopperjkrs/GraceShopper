@@ -39,6 +39,7 @@ class disconnectedCart extends Component {
   }
 
   render () {
+    if (this.props.cartList) {console.log(this.props.cartList[0]) }
     if (!this.props.cartList) return 'Cart is Still Empty.  Please add items' // or cart is empty
     return (
       <div className='RowContainer'>
