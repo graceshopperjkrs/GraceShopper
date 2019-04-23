@@ -22,7 +22,7 @@ class CheckoutForm extends Component {
       await axios.put('/api/cart/', {
         orderId: this.props.props.cart[0].orderId
       })
-      this.props.props.fetchItems()
+      this.props.props.getCart()
       this.setState({complete: true})
     }
   }
