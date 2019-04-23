@@ -7,8 +7,7 @@ const Op = Sequelize.Op
 // Where: find by UserId or OrderId to come in findAll below.
 
 router.get('/', async (req, res, next) => {
-  // console.log('this is req.user.id', req.user.id)
-  console.log('this is session id from /get in cart', req.session.id)
+
   try {
     let orderInfo
     if (req.user === undefined) {
@@ -26,7 +25,7 @@ router.get('/', async (req, res, next) => {
     }
     const orderId = orderInfo.id
     // const orderId = orderInfo
-    // console.log(orderId)
+    console.log('get route:  orderId', orderId)
     // console.log(' i am going to check order table now......')
     const cartDetails = await Orders.findByPk(orderId, {
       include: [
@@ -36,11 +35,11 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
-    console.log('this is cart.products', cartDetails)
-    console.log(
-      'this is cartdetails.products2',
-      cartDetails.dataValues.products
-    )
+    // console.log('this is cart.products', cartDetails)
+    // console.log(
+    //   'this is cartdetails.products2',
+    //   cartDetails.dataValues.products
+    // )
     const cartInfo = cartDetails.dataValues.products.map(ele => {
       const dv = ele.dataValues
       return {
@@ -70,17 +69,17 @@ router.post('/', async (req, res, next) => {
     //before we add to table , first check if order id already exists for a user.
     //if order id exists then use that else create a new orderid.
 
-    /*  console.log('*******post', req.user)
-    console.log('post, body', req.body) */
+
+
     let sessionVal = req.session.id
-    // console.log('this is req.session.id', sessionVal)
+
     if (req.user === undefined) {
       let newOrder = await Orders.create({
         orderStatusId: 1,
         sessionId: sessionVal
       })
       let id = newOrder.id
-      console.log('this is id', id)
+
 
       let newDetail = await Details.create({
         productId: req.body.productId,
@@ -89,10 +88,7 @@ router.post('/', async (req, res, next) => {
         orderId: id
       })
 
-      //req.session.create() = newDetail
-      /*   let sessionValue = req.session.save(newDetail)
-      console.log('this is sessionValue', sessionValue) */
-      // console.log('this is the console log from adding cart', req.session)
+
     } else {
       let orderInfo = await Orders.findOrCreate({
         where: {
@@ -105,16 +101,15 @@ router.post('/', async (req, res, next) => {
         }
       })
 
-      //  console.log('=+++++++++++', orderInfo)
       let newOrderId = orderInfo[0].dataValues.id
 
-      //  console.log('this is orderInfo', newOrderId)
       let newDetail = await Details.create({
         productId: req.body.productId,
         purchaseQuantity: req.body.qty,
         purchasePrice: req.body.price,
         orderId: newOrderId
       })
+
 
       res.send(newDetail) //what to send
     }
@@ -129,13 +124,19 @@ router.put('/:productId', async (req, res, next) => {
   try {
     const existingProduct = await Details.findAll({
       where: {
-        productId: req.params.productId
-        //orderId: req.session.cookie.orderId,
+        productId: req.params.productId,
       }
     })
 
     if (!existingProduct) {
       res.status(404).json('Product Not Found in Cart')
+    } else if (req.body.qty === 0) {
+      await Details.destroy({
+        where: {
+          productId: req.params.productId
+        }
+      })
+      res.sendStatus(204)
     } else {
       await Details.update(
         {purchaseQuantity: req.body.qty},
@@ -147,7 +148,7 @@ router.put('/:productId', async (req, res, next) => {
           returning: true
         }
       )
-      res.status(204).send(/*Updated*/)
+       res.sendStatus(204)
     }
   } catch (err) {
     next(err)
@@ -155,7 +156,7 @@ router.put('/:productId', async (req, res, next) => {
 })
 
 router.delete('/:productId', async (req, res, next) => {
-  //console.log('cart DELETE route', req.session.cookie )
+  console.log('cart DELETE route', req.params.productId)
   // THIS STILL NEEDS TO GET THE ORDER ID FROM SESSION
   try {
     await Details.destroy({
@@ -165,7 +166,7 @@ router.delete('/:productId', async (req, res, next) => {
         productId: req.params.productId
       }
     })
-    res.status(204).send(/*Deleted*/)
+     res.sendStatus(204)
   } catch (err) {
     next(err)
   }
