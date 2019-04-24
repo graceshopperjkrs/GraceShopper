@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import SingleProduct from './SingleProduct'
-import { connect } from 'react-redux'
-import { getSelected } from '../store/product'
+import {connect} from 'react-redux'
+import {getSelected} from '../store/product'
 import CartSubtotal from './CartSubtotal'
-import { gettingCartDetails } from '../store/cart'
+import {gettingCartDetails} from '../store/cart'
 
 class productDetail extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
-    this.state = { changeQty: false }
+    this.state = {changeQty: false}
     this.singleProductChanged = this.singleProductChanged.bind(this)
     // this.handleAddProductChange = this.handleAddProductChange.bind(this)
     // this.handleAddorModifyProductSubmit = this.handleAddorModifyProductSubmit.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // //console.log('product details has mounted, [props.addQty', this.props.addQty)
     /// /console.log('product details state.addQty', this.state.addQty)
     const id = this.props.match.params.productId
@@ -23,19 +23,19 @@ class productDetail extends Component {
     // this.props.getCart()
   }
 
-  singleProductChanged () {
-    this.setState({ changeQty: !this.state.changeQty })
+  singleProductChanged() {
+    this.setState({changeQty: !this.state.changeQty})
     this.props.getCart()
   }
 
-  render () {
+  render() {
     if (!this.props.selected) {
       return 'Loading'
     }
 
     return (
-      <div className='RowContainer'>
-        <div className='ColumnContainer'>
+      <div className="RowContainer">
+        <div className="ColumnContainer">
           <ul>
             <li>
               <SingleProduct
@@ -43,15 +43,13 @@ class productDetail extends Component {
                   ...this.props.selected,
                   productId: this.props.selected.id
                 }}
-                path='ProductDetailView'
+                path="ProductDetailView"
                 singleProductChanged={this.singleProductChanged}
               />
             </li>
           </ul>
         </div>
-        <div>
-          <CartSubtotal path='ProductDetailView' />
-        </div>
+        <CartSubtotal path="ProductDetailView" />
       </div>
     )
   }
@@ -71,7 +69,4 @@ const mapDispatch = dispatch => ({
   getCart: () => dispatch(gettingCartDetails)
 })
 
-export default connect(
-  mapState,
-  mapDispatch
-)(productDetail)
+export default connect(mapState, mapDispatch)(productDetail)
