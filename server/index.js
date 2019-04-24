@@ -62,11 +62,10 @@ const createApp = () => {
     })
   )
   // place right after the session setup middleware // adding to chekc for session value:counter 0
-  app.use((req, res, next) => {
-    // session.save
-    console.log('SESSION from index page: ', req.session)
-    next()
-  })
+  // app.use((req, res, next) => {
+  //   // session.save
+  //   next()
+  // })
 
   app.use(passport.initialize())
   app.use(passport.session())

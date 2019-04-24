@@ -1,13 +1,6 @@
 const router = require('express').Router()
-const {
-  Products,
-  Orders,
-  Details,
-  OrderStatuses,
-  User
-} = require('../db/models')
+const {Products, Orders, Details} = require('../db/models')
 const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 // get cart
 // Where: find by UserId or OrderId to come in findAll below.
@@ -15,15 +8,21 @@ const Op = Sequelize.Op
 router.get('/', async (req, res, next) => {
   try {
     let orderInfo
-
     // User is not logged in, is there a session active?
-    if (req.user === undefined) {
+    if (!req.user) {
       orderInfo = await Orders.findOne({
         where: {
           sessionId: req.session.id,
           orderStatusId: 1
         }
       })
+      //console.log('Order Info:', orderInfo)
+      if (!orderInfo) {
+        orderInfo = await Orders.create({
+          sessionId: req.session.id,
+          orderStatusId: 1
+        })
+      }
     } else {
       orderInfo = await Orders.findOne({
         // user IS logged in, see if there is an existing order
@@ -39,32 +38,34 @@ router.get('/', async (req, res, next) => {
           orderStatusId: 1
         })
       }
-      const orderId = orderInfo.id
-      const cartDetails = await Orders.findByPk(orderId, {
-        include: [
-          {
-            model: Products,
-            through: Details
-          }
-        ]
-      })
-
-      const cartInfo = cartDetails.dataValues.products.map(ele => {
-        const dv = ele.dataValues
-        return {
-          orderId: orderId,
-          productId: dv.id,
-          name: dv.name,
-          imageUrl: dv.imageUrl,
-          description: dv.description,
-          qty: dv.details.purchaseQuantity,
-          price: dv.price
-        }
-      })
-
-      // console.log(cartInfo)
-      res.json(cartInfo)
     }
+    console.log(orderInfo, '********ORDERINFO')
+    const orderId = orderInfo.id
+    const cartDetails = await Orders.findByPk(orderId, {
+      include: [
+        {
+          model: Products,
+          through: Details
+        }
+      ]
+    })
+
+    console.log('DETAILS', cartDetails)
+    const cartInfo = cartDetails.dataValues.products.map(ele => {
+      const dv = ele.dataValues
+      return {
+        orderId: orderId,
+        productId: dv.id,
+        name: dv.name,
+        imageUrl: dv.imageUrl,
+        description: dv.description,
+        qty: dv.details.purchaseQuantity,
+        price: dv.price
+      }
+    })
+    console.log('CartInfo', cartInfo)
+    // console.log(cartInfo)
+    res.json(cartInfo)
   } catch (err) {
     next(err)
   }
@@ -75,16 +76,21 @@ router.post('/', async (req, res, next) => {
   // //console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     // before we add to table , first check if order id already exists for a user.
-
     let sessionVal = req.session.id
-
     if (req.user === undefined) {
-      let newOrder = await Orders.create({
-        orderStatusId: 1,
-        sessionId: sessionVal
+      let Order = await Orders.findOne({
+        where: {
+          orderStatusId: 1,
+          sessionId: sessionVal
+        }
       })
-      let id = newOrder.id
-
+      if (!Order) {
+        Order = await Orders.create({
+          orderStatusId: 1,
+          sessionId: sessionVal
+        })
+      }
+      const id = Order.id
       await Details.create({
         productId: req.body.productId,
         purchaseQuantity: req.body.qty,
@@ -104,13 +110,9 @@ router.post('/', async (req, res, next) => {
       })
 
       let newOrderId = orderInfo[0].dataValues.id
-      // console.log('orderinfo 0', orderInfo[0])
-      // console.log('order info 1', orderInfo[1])
-      const createdOne = orderInfo[1]
 
-      // kludge : destroy first
       await Details.destroy({
-        where: { productId: req.body.productId, orderId: newOrderId }
+        where: {productId: req.body.productId, orderId: newOrderId}
       })
 
       let newDetail = await Details.create({
@@ -130,14 +132,24 @@ router.post('/', async (req, res, next) => {
 // update
 
 router.put('/:productId', async (req, res, next) => {
-  // console.log('reqsession', req.session)
-  // console.log('req.user', req.user)
-  // console.log('req.data', req.data)
   try {
-    const currOrder = await Orders.findOne({
-      where: { userId: req.user.id, orderStatusId: 1 }
-    })
-    /// /console.log('currOrder', currOrder.id)
+    let currOrder
+    if (req.user === undefined) {
+      currOrder = await Orders.findOne({
+        where: {
+          orderStatusId: 1,
+          sessionId: req.session.id
+        }
+      })
+    } else {
+      currOrder = await Orders.findOne({
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }
+      })
+    }
+
     const orderId = currOrder.id
     const existingProduct = await Details.findAll({
       where: {
@@ -152,13 +164,13 @@ router.put('/:productId', async (req, res, next) => {
       await Details.destroy({
         where: {
           productId: req.params.productId,
-          orerId: orderId
+          orderId: orderId
         }
       })
       res.sendStatus(204)
     } else {
       await Details.update(
-        { purchaseQuantity: req.body.qty },
+        {purchaseQuantity: req.body.qty},
         {
           where: {
             // orderId: req.session.cookie.orderId,
@@ -185,7 +197,7 @@ router.put('/', async (req, res, next) => {
 
     if (existingOrder) {
       await Orders.update(
-        { orderStatusId: 2 },
+        {orderStatusId: 2},
         {
           where: {
             id: req.body.orderId
@@ -204,10 +216,22 @@ router.delete('/:productId', async (req, res, next) => {
   // console.log('cart DELETE route', req.params.productId)
   // THIS STILL NEEDS TO GET THE ORDER ID FROM SESSION
   try {
-    const currOrder = await Orders.findOne({
-      where: { userId: req.user.id, orderStatusId: 1 }
-    })
-    /// /console.log('currOrder', currOrder.id)
+    let currOrder
+    if (req.user === undefined) {
+      currOrder = await Orders.findOne({
+        where: {
+          orderStatusId: 1,
+          sessionId: req.session.id
+        }
+      })
+    } else {
+      currOrder = await Orders.findOne({
+        where: {
+          userId: req.user.id,
+          orderStatusId: 1
+        }
+      })
+    }
     const orderId = currOrder.id
 
     await Details.destroy({
