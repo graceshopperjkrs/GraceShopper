@@ -13,7 +13,7 @@ import {
  * COMPONENT
  */
 
-class disconnectedSingleProduct extends React.Component {
+export class DisconnectedSingleProduct extends React.Component {
   constructor(props) {
     super(props)
     this.state = {newQty: this.props.qtyInCart}
@@ -115,6 +115,6 @@ const mapDispatch = dispatch => ({
   deleteItem: id => dispatch(removingItemsFromCart(id))
 })
 
-const SingleProduct = connect(mapState, mapDispatch)(disconnectedSingleProduct)
+const SingleProduct = connect(mapState, mapDispatch)(DisconnectedSingleProduct)
 
 export default SingleProduct
