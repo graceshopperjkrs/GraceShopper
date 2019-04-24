@@ -73,6 +73,7 @@ router.get('/', async (req, res, next) => {
 
 // create cart
 router.post('/', async (req, res, next) => {
+  let newDetail
   // //console.log('cart post', req.originalUrl, req.baseUrl)
   try {
     // before we add to table , first check if order id already exists for a user.
@@ -91,7 +92,7 @@ router.post('/', async (req, res, next) => {
         })
       }
       const id = Order.id
-      await Details.create({
+      newDetail = await Details.create({
         productId: req.body.productId,
         purchaseQuantity: req.body.qty,
         purchasePrice: req.body.price,
@@ -115,15 +116,15 @@ router.post('/', async (req, res, next) => {
         where: {productId: req.body.productId, orderId: newOrderId}
       })
 
-      let newDetail = await Details.create({
+      newDetail = await Details.create({
         productId: req.body.productId,
         purchaseQuantity: req.body.qty,
         purchasePrice: req.body.price,
         orderId: newOrderId
       })
-      req.session.save(newDetail)
-      res.send(newDetail)
     }
+    req.session.save(newDetail)
+    res.send(newDetail)
   } catch (err) {
     next(err)
   }
