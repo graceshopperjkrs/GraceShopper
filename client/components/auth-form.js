@@ -50,7 +50,7 @@ const AuthForm = props => {
           <small>Password</small>
         </label>
         <input name="password" type="password" />
-
+        <br />
         <div>
           <button type="submit">{displayName}</button>
         </div>
