@@ -2,21 +2,7 @@ import {expect} from 'chai'
 import React from 'react'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import {SingleProduct} from '../client/components'
-//
-
-// Redux
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import configureMockStore from 'redux-mock-store'
-import thunkMiddleware from 'redux-thunk'
-const middlewares = [thunkMiddleware]
-const mockStore = configureMockStore(middlewares)
-const initialState = {
-  AllProducts: [],
-  SelectedProduct: {}
-}
-const store = mockStore(initialState)
+import {DisconnectedSingleProduct} from '../client/components/SingleProduct'
 
 const adapter = new Adapter()
 
@@ -26,7 +12,7 @@ describe('ProductView (single and individual)', () => {
   let singleProduct
   beforeEach(() => {
     singleProduct = shallow(
-      <SingleProduct
+      <DisconnectedSingleProduct
         product={{
           id: 1,
           name: 'magicBeans',
@@ -38,7 +24,7 @@ describe('ProductView (single and individual)', () => {
       />
     )
   })
-  it('renders the email in an h3', () => {
+  it('renders the product name in an h1', () => {
     expect(singleProduct.find('h1').text()).to.be.equal('magicBeans')
   })
 })
