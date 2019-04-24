@@ -29,7 +29,7 @@ class productDetail extends Component {
   }
 
   render() {
-    console.log('!!!!!CARTLIST!', this.props.cartList)
+
     if (!this.props.selected) {
       return 'Loading'
     }
@@ -50,9 +50,9 @@ class productDetail extends Component {
             </li>
           </ul>
         </div>
-        <div>
-          <CartSubtotal path="ProductDetailView" />
-        </div>
+
+        <CartSubtotal path="ProductDetailView" />
+
       </div>
     )
   }

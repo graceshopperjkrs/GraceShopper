@@ -23,12 +23,18 @@
   box-sizing: border-box;
 }
 
+h1 {
+  font-family: 'Luckiest Guy', cursive;
+  font-weight: normal;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-image: url(pexels-photo-1050308-wood.jpeg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  font-weight: bold;
 }
 
 a {
@@ -84,11 +90,10 @@ button {
   color: var(--medium);
   background-color: var(--mediumAccent);
   padding: 3px 3px 3px 3px;
-  margin: 20px;
+  margin: 10px auto;
   width: 150px;
   height: 40px;
-
-  align-self: center;
+  display: block;
 }
 
 button:disabled {
@@ -96,11 +101,21 @@ button:disabled {
   color: gray;
 }
 
+form {
+  background-color: rgba(241, 237, 243, 0.6);
+  width: 50%;
+  margin: 0 auto 10px;
+  border: 1px solid var(--darkAccent);
+  padding: 5px;
+  border-radius: 25px;
+}
+
 .CartActionsBox {
   display: flex;
   flex-direction: row;
-  justify-content: left;
-  align-content: center;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .ColumnContainer {
@@ -108,7 +123,7 @@ button:disabled {
   font: 1em sans-serif;
   flex-direction: column;
   align-content: left;
-  width: 70%;
+  width: 100%;
   flex-grow: 1;
 }
 
@@ -121,11 +136,15 @@ button:disabled {
   margin-right: 20px;
 }
 
+.quantity {
+  padding: 10px;
+}
+
 .SingleProductBox {
   flex-direction: column;
   width: 100%;
   border: 1px solid var(--darkAccent);
-  padding: 0 5px;
+  padding: 0 10px;
   border-radius: 25px;
   margin-bottom: 10px;
   background-color: rgba(241, 237, 243, 0.5);
@@ -143,9 +162,11 @@ button:disabled {
 
 #CartSubtotalBox {
   display: flex;
+  width: 70%;
+  height: 100%;
+  padding: 10px;
   flex-direction: column;
   font: 1em sans-serif;
-  height: 300px;
   align-content: left;
   border-radius: 2px;
   border: 1px solid var(--darkAccent);
@@ -154,10 +175,6 @@ button:disabled {
   margin-right: 10px;
   flex-grow: 1;
   background-color: rgba(241, 237, 243, 0.5);
-}
-
-button {
-  display: block;
 }
 
 .form-inline {
