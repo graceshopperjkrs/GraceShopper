@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-import { PaymentForm } from '../components'
+import {PaymentForm} from '../components'
 
-import { gettingCartDetails } from '../store/cart'
+import {gettingCartDetails} from '../store/cart'
 /**
  * COMPONENT
  */
@@ -12,15 +12,21 @@ class disconnectedCartSubtotal extends React.Component {
   // calcSubtotal(){
 
   // }
-  componentDidMount () {
+  componentDidMount() {
     this.props.getCart()
   }
 
-  render () {
+  componentDidUpdate(prevProps) {
+    if (this.props.totalPrice !== prevProps.totalPrice) {
+      this.props.getCart()
+    }
+  }
+
+  render() {
     // console.log('cart subtotal', this.props)
     // //console.log('cartsub', this.props)
     return (
-      <div id='CartSubtotalBox'>
+      <div id="CartSubtotalBox">
         <h3>
           {' '}
           Your Cart has
@@ -37,15 +43,15 @@ class disconnectedCartSubtotal extends React.Component {
         {this.props.path === 'Cart' ? (
           <div>
             <h3>
-              <i className='fa fa-shopping-cart' />
+              <i className="fa fa-shopping-cart" />
               Checkout{' '}
             </h3>
             <PaymentForm props={this.props} />
           </div>
         ) : (
           <div>
-            <Link to='/cart'>
-              <i className='fa fa-shopping-cart' />
+            <Link to="/cart">
+              <i className="fa fa-shopping-cart" />
               Checkout{' '}
             </Link>
           </div>
@@ -59,7 +65,7 @@ const mapState = (state, ownProps) => ({
   totalItems: state.AddItems.cart.length,
   cart: state.AddItems.cart,
   totalPrice: state.AddItems.cart.reduce((totalPx, el) => {
-    return totalPx + (el.price * el.qty) / 100.0
+    return totalPx + el.price * el.qty / 100.0
   }, 0),
   path: ownProps.path
 })
@@ -68,7 +74,4 @@ const mapDispatch = dispatch => ({
   getCart: () => dispatch(gettingCartDetails())
 })
 
-export default connect(
-  mapState,
-  mapDispatch
-)(disconnectedCartSubtotal)
+export default connect(mapState, mapDispatch)(disconnectedCartSubtotal)

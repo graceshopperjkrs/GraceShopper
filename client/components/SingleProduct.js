@@ -13,7 +13,9 @@ import {
  * COMPONENT
  */
 
+
 export class DisconnectedSingleProduct extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {newQty: this.props.qtyInCart}
@@ -24,6 +26,8 @@ export class DisconnectedSingleProduct extends React.Component {
     // c//console.log('changing/addinng quantity in Single Product', value)
     const {name, imageUrl, productId, description, price} = this.props.product
     let prodObj
+    console.log('****PROPS!***:', this.props)
+    console.log('****PROPS QTY!***:', this.props.qtyInCart)
     if (this.props.qtyInCart === 0) {
       prodObj = {
         productId,
@@ -33,7 +37,10 @@ export class DisconnectedSingleProduct extends React.Component {
         description,
         name
       }
+      console.log('ADDING ITeMS!')
+      console.log('***PROD OBj***', prodObj)
       this.props.addingItemstoCart(prodObj)
+      this.props.fetchItems()
     } else {
       prodObj = {id: Number(productId), qty: Number(value)}
 
@@ -115,6 +122,8 @@ const mapDispatch = dispatch => ({
   deleteItem: id => dispatch(removingItemsFromCart(id))
 })
 
+
 const SingleProduct = connect(mapState, mapDispatch)(DisconnectedSingleProduct)
+
 
 export default SingleProduct

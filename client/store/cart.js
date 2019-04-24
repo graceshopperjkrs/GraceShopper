@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 // INITIAL STATE
 const initialState = {
@@ -53,7 +52,7 @@ export const gettingCartDetails = () => async dispatch => {
 export const addingItemstoCart = item => async dispatch => {
   try {
     await axios.post('/api/cart', item)
-
+    console.log('***ITEM!***', item)
     dispatch(addItemstoCart(item))
   } catch (err) {
     console.error(err)
@@ -81,7 +80,7 @@ export const editingItemsInCart = item => async dispatch => {
 }
 
 // REDUCER
-export function AddItems (state = initialState, action) {
+export function AddItems(state = initialState, action) {
   switch (action.type) {
     // do we need this initial cart?
     case INITIAL_CART:
